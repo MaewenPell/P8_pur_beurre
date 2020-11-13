@@ -1,0 +1,40 @@
+{% extends 'store/parts/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid p-10 mb-0">
+        <header class='row header-image align-items-center justify-content-center aligner'>
+            <div class="col-12">
+                <h1 class="text-white font-weight-bold">Aliment XXXXXXXX</h1>
+            </div>
+        <header>
+    </div> 
+<!-- About-->
+<section class="page-section bg-primary" id="about">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="text-grey mt-0">Vous pouvez remplacer cet aliment avec ceci :</h2>
+                <div class="card-deck col-12">
+                    <div id="portfolio">
+                        <hr class="divider my-4" />
+                        {% block card %}
+                        <div class='row'>
+                            {% include 'store/parts/card.html' with mark='a' state='save'%}
+                            {% include 'store/parts/card.html' with mark='b' state='save'%}
+                            {% include 'store/parts/card.html' with mark='c' state='save'%}
+                        </div>
+                        <div class='row'>
+                            {% include 'store/parts/card.html' with mark='a' state='save'%}
+                            {% include 'store/parts/card.html' with mark='a' state='save'%}
+                            {% include 'store/parts/card.html' with mark='a' state='save'%}
+                        </div>
+                        {% endblock card %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

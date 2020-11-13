@@ -1,0 +1,21 @@
+{% load static %}
+
+<div class="card mb-4">
+    <div class="view overlay">
+        <img class="card-img-top" src="{% static 'store/assets/img/portfolio/thumbnails/1.jpg' %}" alt="Card image cap">
+        <span class="badge notify-badge nutriscore-{{mark}}">{{ mark }}</span>
+        <a href="#">
+            <div class="mask rgba-white-slight"></div>
+        </a>
+    </div>
+    <div lass="card-body">
+        <h4 class="card-title">Nom aliment</h4>
+        {% if state == 'save' %}
+            <button class="btn btn-outline-warning btn-rounded btn-sm my-0 js-scroll-trigger" type="submit"><i
+            class="fa fa-floppy-o p-2" aria-hidden="true"></i>Sauvegarder</button>
+        {% elif state == 'remove' %}
+            <button class="btn btn-outline-warning btn-rounded btn-sm my-0 js-scroll-trigger" type="submit"><i
+            class="fa fa-floppy-o p-2" aria-hidden="true"></i>Retirer</button>
+        {% endif %}
+    </div>
+</div>

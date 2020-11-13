@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Pur Beurre</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://kit.fontawesome.com/91d7821759.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Scope+One" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" type="text/css" href="{% static 'store/css/styles.css' %}" />
+
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+        <div class="container">
+            <img class="logo mx-3" src="{% static 'store/assets/img/logo_pur_beurre.png' %}" width="30"
+                height="30"></img>
+            <a class="navbar-brand js-scroll-trigger" href="/store/">Pur Beurre</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <!-- Search form -->
+                <ul class="navbar-nav ml-auto my-lg-0">
+                    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                    <li class="nav-item my-auto">
+                        <a class="nav-link js-scroll-trigger" href="/store/user">
+                            <i class="fas fa-user fa-lg"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item my-auto">
+                        <a class="nav-link js-scroll-trigger" href="/store/my-aliments">
+                            <i class="fas fa-carrot fa-lg"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item my-auto">
+                        <a class="nav-link js-scroll-trigger" href="/store/">
+                            <i class="fas fa-sign-in-alt fa-lg"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block content%}
+    {% endblock content %}
+
+    <!-- Footer-->
+    <footer class="bg-light py-5">
+        <div class="container">
+            <div class="small text-center text-muted col-md-6 mx-auto">
+                <a class="p-5" href="/store/legal">Mentions legales</a>
+                <a class="p-5" href="/store/contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js">
+    </script>
+    <!-- Core theme JS-->
+    <script src="{% static 'store/js/scripts.js' %}"></script>
+</body>
+
+</html>
