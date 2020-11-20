@@ -28,7 +28,7 @@
         <div class="container">
             <img class="logo mx-3" src="{% static 'store/assets/img/logo_pur_beurre.png' %}" width="30"
                 height="30"></img>
-            <a class="navbar-brand js-scroll-trigger" href="/store/">Pur Beurre</a>
+            <a class="navbar-brand js-scroll-trigger" href="{% url 'index' %}">Pur Beurre</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -37,17 +37,17 @@
                 <ul class="navbar-nav ml-auto my-lg-0">
                     <input class="form-control" type="text" placeholder="Search" aria-label="Search">
                     <li class="nav-item my-auto">
-                        <a class="nav-link js-scroll-trigger" href="/store/user">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'user' %}">
                             <i class="fas fa-user fa-lg"></i>
                         </a>
                     </li>
                     <li class="nav-item my-auto">
-                        <a class="nav-link js-scroll-trigger" href="/store/my-aliments">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'my_aliments' %}">
                             <i class="fas fa-carrot fa-lg"></i>
                         </a>
                     </li>
                     <li class="nav-item my-auto">
-                        <a class="nav-link js-scroll-trigger" href="/store/">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'index' %}">
                             <i class="fas fa-sign-in-alt fa-lg"></i>
                         </a>
                     </li>
@@ -63,8 +63,8 @@
     <footer class="bg-light py-5">
         <div class="container">
             <div class="small text-center text-muted col-md-6 mx-auto">
-                <a class="p-5" href="/store/legal">Mentions legales</a>
-                <a class="p-5" href="/store/contact">Contact</a>
+                <a class="p-5" href="{% url 'legal' %}">Mentions legales</a>
+                <a class="p-5" href="{% url 'contact' %}">Contact</a>
             </div>
         </div>
     </footer>

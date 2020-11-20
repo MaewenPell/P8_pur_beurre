@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Aliment, User, Category
 
-# Register your models here.
+
+admin.site.register([Aliment, User, Category])
