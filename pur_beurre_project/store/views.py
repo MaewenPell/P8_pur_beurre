@@ -1,17 +1,25 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from store.models import Aliment
 
 
 def index(request):
     return render(request, 'store/index.html')
 
 
-def detail(request):
-    return render(request, 'store/detail.html')
+def detail(request, alim_id):
+    alim = Aliment.objects.filter(pk=alim_id)
+
+    context = {'alim': alim}
+
+    return render(request, 'store/detail.html', context)
 
 
 def result(request):
-    return render(request, 'store/result.html')
+    alim = Aliment.objects.filter(name__icontains='lait').order_by('nutriscore')[0:3]
+
+    context = {'alim': alim}
+
+    return render(request, 'store/result.html', context)
 
 
 def user(request):

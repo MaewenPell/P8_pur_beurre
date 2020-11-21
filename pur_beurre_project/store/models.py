@@ -7,12 +7,15 @@ class Category(models.Model):
     def __str__(self):
         return f'{self.category}'
 
+    class Meta:
+        verbose_name_plural = 'Categories'
+
 
 class Aliment(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     nutriscore = models.CharField(max_length=100)
-    image_url = models.URLField()
-    product_url = models.URLField()
+    image_url = models.URLField(unique=True)
+    product_url = models.URLField(unique=True)
     sugar = models.CharField(max_length=100, null=True, default=None)
     fat = models.CharField(max_length=100, null=True, default=None)
     salt = models.CharField(max_length=100, null=True, default=None)

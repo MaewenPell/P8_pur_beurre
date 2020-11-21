@@ -1,10 +1,10 @@
-from django.core.management.base import BaseCommand, CommandError
-from store.store_settings import NB_RESULTS, CATEGORIES
-from store.services.get_data_off import OFFRequester
+from django.core.management.base import BaseCommand
+from store.store_settings import NB_RESULTS
+from store.services.get_data_off import aliments_requester, categories_requester
 from store.services.populate_aliment_table import NewAliment
 from store.services.populate_category_table import NewCategory
 from store.models import Category
-from django.db.utils import IntegrityError
+from django.db.utils import IntegrityError, DataError
 
 
 class Command(BaseCommand):
@@ -12,18 +12,27 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.stdout.write('1 - Start filling Category table')
-        for cat in CATEGORIES:
+
+        cat = categories_requester()
+        for current_cat in cat:
             try:
-                NewCategory(cat).create_new_category()
-                self.stdout.write(self.style.SUCCESS(f'\t Created {cat}'))
+                NewCategory(current_cat).create_new_category()
+                self.stdout.write(self.style.SUCCESS(f'\tCreated {current_cat}'))
+
+                self.stdout.write(f'2 - Requesting {NB_RESULTS} aliments for {current_cat} table')
+                alims_for_cat = aliments_requester(current_cat)
             except IntegrityError:
-                self.stdout.write(self.style.ERROR(f'Passing creation of {cat} : already exist'))
+                self.stdout.write(self.style.ERROR(f'\tPassing creation of {cat}'))
+                continue
 
-            self.stdout.write(f'2 - Start fetching aliments informations for {cat}')
-            current_cat = Category.objects.get(category=cat)
-            alims_for_cat = OFFRequester(cat, NB_RESULTS)
-            for alim in alims_for_cat[0]:
-                NewAliment(alim, current_cat).create_aliment()
-
-            self.stdout.write(self.style.SUCCESS(
-                f'Fetching finished'))
+            self.stdout.write('3 - Start filling table')
+            for alim in alims_for_cat:
+                try:
+                    cat_to_fill = Category.objects.get(category=current_cat)
+                    NewAliment(alim, cat_to_fill).create_aliment()
+                except IntegrityError:
+                    self.stdout.write(self.style.ERROR(f'\tPassing creation of {alim}'))
+                    continue
+                except DataError as e:
+                    self.stdout.write(self.style.ERROR(f'\tPassing creation of {alim}'))
+            self.stdout.write(self.style.SUCCESS('\tFinish filling'))

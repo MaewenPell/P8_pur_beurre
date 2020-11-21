@@ -29,7 +29,7 @@ def parse_categorie(data):
             alim = _pattern_alim()
             # General informations
             alim['name'] = str(fetched_alim['product_name'])
-            if alim['name'] == 'Chargement...':
+            if alim['name'] == 'Chargement…':
                 continue
             alim['nutriscore'] = str(fetched_alim['nutriscore_grade'])
 
