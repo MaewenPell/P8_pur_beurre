@@ -33,7 +33,9 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <!-- Search form -->
                 <ul class="navbar-nav ml-auto my-lg-0">
-                    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                    <form action="{% url 'result' %}" method='get'>
+                        <input name='search_alim' class="form-control" type="text" placeholder="Aliment à remplacer ..." aria-label="Search">
+                    </form>
                     <li class="nav-item my-auto">
                         <a class="nav-link js-scroll-trigger" href="{% url 'user' %}">
                             <i class="fas fa-user fa-lg"></i>
