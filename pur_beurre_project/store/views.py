@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from store.models import Aliment
-from django.db.models import Q
-from difflib import SequenceMatcher
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import login, authenticate
 from store.forms.forms import SignUpForm
+from store.services.db_lookup import find_best_match, find_better_alims
 import numpy as np
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -27,33 +26,31 @@ def detail(request, alim_id):
     return render(request, 'store/detail.html', context)
 
 
+def add_alim(request):
+    context = request.POST.get('add_alim')
+    context = context.split("#")
+    alim_id = context[0]
+    user_email = context[1]
+    alim = Aliment.objects.get(pk=alim_id)
+    current_user = User.objects.get(email=user_email)
+
+    current_user.my_aliments.add(alim)
+
+    return HttpResponse(200)
+
+
 def result(request):
     query = request.GET.get('search_alim')
-    best_match = {
-                  'name': 'name',
-                  'similarity': 0
-                 }
-    if Aliment.objects.filter(name__icontains=query).exists():
-        query_alim = Aliment.objects.filter(name__icontains=query)
-        for alim in query_alim:
-            similarity = SequenceMatcher(None, alim.name, best_match['name']).ratio()
-            if similarity > best_match['similarity']:
-                best_match['similarity'] = similarity
-                best_match['name'] = alim.name
 
-        alim = Aliment.objects.get(name=best_match['name'])
+    best_match = find_best_match(query)
+    better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
 
-        db_query = Q(nutriscore__lte=alim.nutriscore)
-        db_query.add(Q(category=alim.category), Q.AND)
+    context = {
+                'alim': better_alims,
+                'query_alim': best_match['product']
+                }
 
-        better_alim = Aliment.objects.filter(db_query).order_by("nutriscore")[0:6]
-
-        context = {
-                    'alim': better_alim,
-                    'query_alim': alim
-                  }
-
-        return render(request, 'store/result.html', context)
+    return render(request, 'store/result.html', context)
 
 
 def user(request):

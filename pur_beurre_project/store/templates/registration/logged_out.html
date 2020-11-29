@@ -3,12 +3,18 @@
 
 {% block content %}
 
-<section class="page-section h-100 p-10" id="contact">
-    <div class="container">
-        <div class="col-lg-8 text-center">
-            <p>Logged out!</p>  
-            <a href="{% url 'login'%}">Click here to login again.</a>
+    <section class="page-section h-100 p-10" id="contact">
+        <div class="container">
+            <div class="col-lg-8 text-center">
+                {% if user.is_authenticated %}
+                    Hi {{ user.username }}!
+                    <p><a href="{% url 'logout' %}">Log Out</a></p>
+                {% else %}
+                    <p>You are not logged in</p>
+                    <a href="{% url 'login' %}">Log In</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
-</section>
-{% endblock content %}
+    </section>
+
+{% endblock %}

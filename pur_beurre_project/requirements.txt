@@ -1,0 +1,4 @@
+django
+numpy
+psycopg2
+django-extensions
