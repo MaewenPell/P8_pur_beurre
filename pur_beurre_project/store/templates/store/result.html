@@ -2,14 +2,13 @@
 {% load static %}
 
 {% block content %}
-    <div class="container-fluid p-10 mb-0">
-        {% comment %} TODO: ADD IMAGE PRODUCT {% endcomment %}
-        <header class='row header-image align-items-center justify-content-center aligner'>
-            <div class="col-12">
-                <h1 class="text-white font-weight-bold">{{ query_alim }}</h1>
-            </div>
-        <header>
-    </div> 
+<div class="container-fluid p-10 mb-0">
+    <header class='row header-image align-items-center justify-content-center aligner' style='background-image: url("{{ query_alim.image_url }}");'>
+        <div class="col-12">
+            <h1 class="text-white font-weight-bold">{{ query_alim.name }}</h1>
+        </div>
+    <header>
+</div>
 <!-- About-->
 <section class="page-section bg-primary" id="about">
     <div class="container">
@@ -20,24 +19,27 @@
                     <div id="portfolio">
                         <hr class="divider my-4" />
                         {% block card %}
-                            <div class='row'>
-                                {% for curr_alim in alim %}
+                        <div class='row'>
+                            {% for current_alim in alim %}
                                 <div class="card mb-4">
-                                    <div class="view overlay">
-                                        <img class="card-img-top" src="{{ curr_alim.image_url }}" alt="Card image cap">
-                                        <span class="badge notify-badge nutriscore-{{curr_alim.nutriscore}}">{{ curr_alim.nutriscore }}</span>
-                                        <a href="#">
-                                            <div class="mask rgba-white-slight"></div>
+                                    <img class="card-img-top" src="{{ current_alim.image_url }}" alt="Card image cap">
+                                    <span class="badge notify-badge nutriscore-{{ current_alim.nutriscore}}">{{ current_alim.nutriscore }}</span>
+                                    <div class="card-body">
+                                        <a href="{% url 'detail' current_alim.id %}" target="_blank" rel="noopener noreferrer">
+                                            <h4 class="card-title">{{ current_alim.name }}</h4>
                                         </a>
-                                    </div>
-                                    <div lass="card-body">
-                                        <h4 class="card-title">{{ curr_alim.name }}</h4>
-                                            <button class="btn btn-outline-warning btn-rounded btn-sm my-0 js-scroll-trigger" type="submit"><i
-                                            class="fa fa-floppy-o p-2" aria-hidden="true"></i>Sauvegarder</button>
+
+                                        <button class="btn btn-outline-warning btn-rounded btn-sm my-0 custom" type="submit">
+                                            <i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>Sauvegarder
+                                        </button>
                                     </div>
                                 </div>
-                                {% endfor %}
-                            </div>
+                                {% if forloop.counter == 3 %}
+                                    </div>
+                                    <div class='row'>   
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                         {% endblock card %}
                     </div>
                 </div>

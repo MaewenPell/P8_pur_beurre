@@ -1,0 +1,28 @@
+{% extends 'store/parts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="page-section h-100 p-10" id="contact">
+    <div class="container">
+
+        <h1> Création d'un nouvel utilisateur </h1>
+        <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+            </p>
+        {% endfor %}
+        <button class="btn btn-outline-warning btn-rounded btn-sm my-0 js-scroll-trigger" type="submit">Sign up</button>
+        </form>
+
+</section>
+{% endblock content %}

@@ -4443,7 +4443,8 @@ input[type=button].btn-block {
 .card-body {
   flex: 1 1 auto;
   min-height: 1px;
-  padding: 1.25rem;
+  padding: 1.25rem 1.25rem 5rem 1.25rem;
+  position: relative;
 }
 
 .card-title {
@@ -10384,12 +10385,23 @@ header.masthead h1 {
   sans-serif;
   padding-top: 10rem;
   padding-bottom: calc(10rem - 4.5rem);
-  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%),
-  url("../assets/img/petit_beurre_a_l_epeautre.jpg");
+  background-image: url("../assets/img/petit_beurre_a_l_epeautre.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-size: cover;
+  position: relative;
+}
+
+.header-image::before {
+  position: absolute;
+  top:0;
+  left:0;
+  content:"";
+  background-color: #E09535;
+  opacity: 0.85;
+  width: 100%;
+  height: 100%;
 }
 
 .page-section {
@@ -10411,4 +10423,11 @@ header.masthead h1 {
 .aligner h1 {
       display: block;
       width: 100%;
+}
+
+.custom {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1.25rem;
 }

@@ -2,42 +2,65 @@
 {% load static %}
 
 {% block content %}
-    <!-- Masthead-->
-    <div class="container h-50 p-10">
-        <header class='header-image align-items-center justify-content-center'>
-            <div class="row align-items-center justify-content-center text-center">
-                <div class="col-lg-10">
-                    <h1 class="text-white font-weight-bold">Aliment cherché</h1>
-                    <hr class="divider my-4"/>
-                </div>
-            </div>
-        <header>
-    </div>
+<div class="container-fluid p-10 mb-0">
+    <header class='row header-image align-items-center justify-content-center aligner' style='background-image: url("{{ alim.image_url }}");'>
+        <div class="col-12">
+            <h1 class="text-white font-weight-bold">{{ alim.name }}</h1>
+        </div>
+    <header>
+</div>
     <section class="page-section bg-primary">
         <div class="container col-md-10 d-flex justify-content-center">
             <div class="col-md-3 text-center mr-5">
-                <img class='img-fluid' src="{% static 'store/assets/img/nutriscores/c.png' %}" alt='c_logo' />
+                <img class='img-fluid' src="{% static 'store/assets/img/nutriscores/' %}{{ alim.nutriscore }}.png " alt='c_logo' />
             </div>
             <div class="card col-md-6 ml-5">
-                <h3 class="text-center mx-3 my-3">Repères nutritionnels pour 100g</h3>
+                <h3 class="text-center mx-3 my-3">Repères nutritionnels</h3>
                 <div class="px-4">
                     <div class="table-wrapper">
-                        <table class="table table-hover mb-0">
+                        <table class="table mb-0">
                             <thead>
                                 <tr>
-                                    <th class="th-lg align-top">Matières grasses</th>
-                                    <th class="th-lg align-top">Acides gras saturés</th>
                                     <th class="th-lg align-top">Sucres</th>
+                                    <th class="th-lg align-top">Graisses</th>
                                     <th class="th-lg align-top">Sel</th>
+                                    <th class="th-lg align-top">Energie</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <tr>
-                                    <td class='average'><i class="fas fa-circle pr-1"></i>17g</td>
-                                    <td class='bad'><i class="fas fa-circle pr-1"></i>12g</td>
-                                    <td class='good'><i class="fas fa-circle pr-1"></i>1g</td>
-                                    <td class='average'><i class="fas fa-circle pr-1"></i>0.4g</td>
+                                    {% if nutrim.sugar < 5 %}
+                                        <td class='good'>
+                                    {% elif nutrim.sugar < 12.5 %}
+                                        <td class='average'>
+                                    {% else %}
+                                        <td class='bad'>
+                                    {% endif %}
+                                        <i class="fas fa-circle pr-1"></i>{{alim.sugar}}g
+                                        </td>
+
+                                    {% if nutrim.fat < 3 %}
+                                        <td class='good'>
+                                    {% elif nutrim.fat < 20 %}
+                                        <td class='average'>
+                                    {% else %}
+                                        <td class='bad'>
+                                    {% endif %}
+                                        <i class="fas fa-circle pr-1"></i>{{alim.fat}} g
+                                        </td>
+                                    
+                                    {% if nutrim.salt < 0.3 %}
+                                        <td class='good'>
+                                    {% elif nutrim.salt < 1.5 %}
+                                        <td class='average'>
+                                    {% else %}
+                                        <td class='bad'>
+                                    {% endif %}
+                                        <i class="fas fa-circle pr-1"></i>{{alim.salt}} g
+                                        </td>  
+
+                                    <td>{{ alim.energy }} Kcal</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -48,10 +71,10 @@
         <row>
             <hr class='divider my-5'>
             <div class='text-center'>
-                <button class="btn btn-outline-warning btn-rounded btn-sm" type="submit">
+                <a class="btn btn-outline-warning btn-rounded btn-sm" href={{ alim.product_url }} target='_blank'>
                     <i class="fa fa-floppy-o p-2"aria-hidden="true"></i>
                     Voir la fiche d'openFoodFact
-                </button>
+                </a>
             </div>
         </row>
     </section>

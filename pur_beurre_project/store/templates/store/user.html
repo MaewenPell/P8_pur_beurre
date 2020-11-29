@@ -6,7 +6,7 @@
     <div class="container-fluid p-10 mb-0">
         <header class=' row header-image align-items-center justify-content-center aligner'>
             <div class="col-12">
-                <h1 class="text-white font-weight-bold">Bonjour XXXXXXXX</h1>
+                <h1 class="text-white font-weight-bold">Bonjour {{ user }} </h1>
             </div>
         <header>
     </div>  
@@ -16,7 +16,7 @@
                     <h2 class="mt-0">Email</h2>
                     <hr class="divider my-3" />
                     <h4 class='mb-3'>
-                        test@example.com
+                        {{ user.email }}
                     </h4>
                 </div>
             </div>

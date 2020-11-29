@@ -34,22 +34,29 @@
                 <!-- Search form -->
                 <ul class="navbar-nav ml-auto my-lg-0">
                     <form action="{% url 'result' %}" method='get'>
-                        <input name='search_alim' class="form-control" type="text" placeholder="Aliment à remplacer ..." aria-label="Search">
+                        <input name='search_alim' class="form-control" type="text" placeholder="Chercher ..." aria-label="Search">
                     </form>
                     <li class="nav-item my-auto">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'user' %}">
-                            <i class="fas fa-user fa-lg"></i>
-                        </a>
+                        {% if user.is_authenticated %}
+                            <a class="nav-link js-scroll-trigger" href="{% url 'user' %}"><i class="fas fa-user fa-lg"></i></a>
+                        {% else %}
+                            <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-user fa-lg"></i></a>
+                        {% endif %}
                     </li>
                     <li class="nav-item my-auto">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'my_aliments' %}">
-                            <i class="fas fa-carrot fa-lg"></i>
-                        </a>
+                        {% if user.is_authenticated %}
+                            <a class="nav-link js-scroll-trigger" href="{% url 'my_aliments' %}"><i class="fas fa-carrot fa-lg"></i></a>
+                        {% else %}
+                            <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-carrot fa-lg"></i></a>
+                        {% endif %}
+                        
                     </li>
                     <li class="nav-item my-auto">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'index' %}">
-                            <i class="fas fa-sign-in-alt fa-lg"></i>
-                        </a>
+                        {% if user.is_authenticated %}
+                            <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                        {% else %}
+                            <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
+                        {% endif %}
                     </li>
                 </ul>
             </div>
@@ -74,7 +81,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js">
+    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"> {% endcomment %}
     </script>
     <!-- Core theme JS-->
     <script src="{% static 'store/js/scripts.js' %}"></script>

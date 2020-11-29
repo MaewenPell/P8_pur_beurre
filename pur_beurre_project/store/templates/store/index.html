@@ -13,10 +13,9 @@
             <div class="col-lg-8 align-self-baseline">
                 <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous
                     consommez tout les jours.</p>
-                <form class="form-inline md-form mr-auto mb-4 justify-content-center">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-warning btn-rounded btn-sm my-0 js-scroll-trigger"
-                        type="submit">Search</button>
+                <form action="{% url 'result' %}" class="form-inline md-form mr-auto mb-4 justify-content-center" method='get'>
+                    <input name='search_alim' class="form-control" type="text" placeholder="Produit" aria-label="Search">
+                    <button class="btn btn-outline-warning btn-rounded btn-m my-0" type="submit">Chercher</button>
                 </form>
             </div>
         </div>

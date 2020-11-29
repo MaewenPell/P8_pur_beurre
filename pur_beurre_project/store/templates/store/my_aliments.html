@@ -19,7 +19,7 @@
                     <div id="portfolio">
                         <hr class="divider my-4" />
                         {% block card %}
-                        <div class='row'>
+                        {% comment %} <div class='row'>
                             {% include 'store/parts/card.html' with mark='a' state='remove'%}
                             {% include 'store/parts/card.html' with mark='b' state='remove'%}
                             {% include 'store/parts/card.html' with mark='c' state='remove'%}
@@ -28,7 +28,7 @@
                             {% include 'store/parts/card.html' with mark='a' state='remove'%}
                             {% include 'store/parts/card.html' with mark='a' state='remove'%}
                             {% include 'store/parts/card.html' with mark='a' state='remove'%}
-                        </div>
+                        </div> {% endcomment %}
                         {% endblock card %}
                     </div>
                 </div>
