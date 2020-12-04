@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
-from store.models import Aliment
+from store.models import Aliment, Favorite
 from django.contrib.auth import login, authenticate
 from store.forms.forms import SignUpForm
 from store.services.db_lookup import find_best_match, find_better_alims
 import numpy as np
 from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 
 
 def index(request):
@@ -27,16 +28,41 @@ def detail(request, alim_id):
 
 
 def add_alim(request):
-    context = request.POST.get('add_alim')
-    context = context.split("#")
-    alim_id = context[0]
-    user_email = context[1]
+    c = request.POST.get('add_alim').split("#")
+    alim_id = c[0]
+    user_email = c[1]
     alim = Aliment.objects.get(pk=alim_id)
     current_user = User.objects.get(email=user_email)
 
-    current_user.my_aliments.add(alim)
+    try:
+        new_fav = Favorite.objects.create(user=current_user, aliment=alim)
+    except IntegrityError:
+        pass
 
-    return HttpResponse(200)
+    current_user = User.objects.get(email=request.user.email)
+    fav_alim_user = Favorite.objects.filter(user=current_user)
+
+    context = {
+        "alims" : fav_alim_user
+    }
+    return render(request, 'store/my_aliments.html', context=context)
+
+def remove_alim(request):
+    c = request.POST.get('remove_alim')
+    alim_id = c
+    alim = Aliment.objects.get(pk=alim_id)
+    current_user = User.objects.get(email=request.user.email)
+    
+    to_del = Favorite.objects.get(user=current_user, aliment=alim)
+    to_del.delete()
+
+    current_user = User.objects.get(email=request.user.email)
+    fav_alim_user = Favorite.objects.filter(user=current_user)
+
+    context = {
+        "alims" : fav_alim_user
+    }
+    return render(request, 'store/my_aliments.html', context=context)
 
 
 def result(request):
@@ -58,7 +84,13 @@ def user(request):
 
 
 def my_aliments(request):
-    return render(request, 'store/my_aliments.html')
+    current_user = User.objects.get(email=request.user.email)
+    fav_alim_user = Favorite.objects.filter(user=current_user)
+
+    context = {
+        "alims" : fav_alim_user
+    }
+    return render(request, 'store/my_aliments.html', context)
 
 
 def legal(request):
