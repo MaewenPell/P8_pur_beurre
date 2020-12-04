@@ -30,7 +30,7 @@ class Aliment(models.Model):
 
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    aliment = models.ForeignKey(Aliment, on_delete=models.CASCADE, unique=True)
+    aliment = models.ForeignKey(Aliment, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.user}"

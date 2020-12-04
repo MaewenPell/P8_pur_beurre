@@ -6,6 +6,7 @@ from store.services.db_lookup import find_best_match, find_better_alims
 import numpy as np
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
@@ -34,10 +35,7 @@ def add_alim(request):
     alim = Aliment.objects.get(pk=alim_id)
     current_user = User.objects.get(email=user_email)
 
-    try:
-        new_fav = Favorite.objects.create(user=current_user, aliment=alim)
-    except IntegrityError:
-        pass
+    new_fav = Favorite.objects.create(user=current_user, aliment=alim)
 
     current_user = User.objects.get(email=request.user.email)
     fav_alim_user = Favorite.objects.filter(user=current_user)
@@ -67,14 +65,22 @@ def remove_alim(request):
 
 def result(request):
     query = request.GET.get('search_alim')
-
-    best_match = find_best_match(query)
-    better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
+    error = False
+    try:
+        best_match = find_best_match(query)
+        better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
+    except Aliment.DoesNotExist:
+        query = "petit beurre"
+        best_match = find_best_match(query)
+        better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
+        error = True
 
     context = {
                 'alim': better_alims,
-                'query_alim': best_match['product']
-                }
+                'query_alim': best_match['product'],
+                'error': error
+            }
+    
 
     return render(request, 'store/result.html', context)
 

@@ -26,7 +26,7 @@
                                 <span
                                     class="badge notify-badge nutriscore-{{ current_alim.aliment.nutriscore}}">{{ current_alim.aliment.nutriscore }}</span>
                                 <div class="card-body">
-                                    <a href="{% url 'detail' current_alim.id %}" target="_blank"
+                                    <a href="{% url 'detail' current_alim.aliment.id %}" target="_blank"
                                         rel="noopener noreferrer">
                                         <h4 class="card-title">{{ current_alim.aliment.name }}</h4>
                                     </a>

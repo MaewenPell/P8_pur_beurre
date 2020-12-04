@@ -5,24 +5,25 @@
 
 <section class="page-section h-100 p-10" id="contact">
     <div class="container">
-
-        <h1> Création d'un nouvel utilisateur </h1>
+        <h1 class="text-center"> Création d'un nouvel utilisateur </h1>
+        <hr class="divider my-4" />
         <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
+            {% csrf_token %}
+            {% for field in form %}
+                <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                    <br><small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+                {% if field.Password %}{% endif %}
+                </p>
             {% endfor %}
-            </p>
-        {% endfor %}
-        <button class="btn btn-outline-warning btn-rounded btn-sm my-0 js-scroll-trigger" type="submit">Sign up</button>
+            <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit">Sign up</button>
         </form>
-
+    </div>
 </section>
 {% endblock content %}
