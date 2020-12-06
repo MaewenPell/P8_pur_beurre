@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect, HttpResponse
-from store.models import Aliment, Favorite
-from django.contrib.auth import login, authenticate
-from store.forms.forms import SignUpForm
-from store.services.db_lookup import find_best_match, find_better_alims
 import numpy as np
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.db.utils import IntegrityError
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
+from django.shortcuts import redirect, render
+
+from store.forms.forms import SignUpForm
+from store.models import Aliment, Favorite
+from store.services.db_lookup import find_best_match, find_better_alims
 
 
 def index(request):
@@ -35,32 +35,27 @@ def add_alim(request):
     alim = Aliment.objects.get(pk=alim_id)
     current_user = User.objects.get(email=user_email)
 
-    new_fav = Favorite.objects.create(user=current_user, aliment=alim)
+    if not Favorite.objects.filter(user=current_user, aliment=alim).exists():
+        Favorite.objects.create(user=current_user, aliment=alim)
+        return redirect('my_aliments')
+    else:
+        # TODO voir comment on implémente ça
+        pass
 
-    current_user = User.objects.get(email=request.user.email)
-    fav_alim_user = Favorite.objects.filter(user=current_user)
-
-    context = {
-        "alims" : fav_alim_user
-    }
-    return render(request, 'store/my_aliments.html', context=context)
 
 def remove_alim(request):
     c = request.POST.get('remove_alim')
     alim_id = c
     alim = Aliment.objects.get(pk=alim_id)
     current_user = User.objects.get(email=request.user.email)
-    
+
     to_del = Favorite.objects.get(user=current_user, aliment=alim)
     to_del.delete()
 
     current_user = User.objects.get(email=request.user.email)
-    fav_alim_user = Favorite.objects.filter(user=current_user)
+    Favorite.objects.filter(user=current_user)
 
-    context = {
-        "alims" : fav_alim_user
-    }
-    return render(request, 'store/my_aliments.html', context=context)
+    return redirect('my_aliments')
 
 
 def result(request):
@@ -80,8 +75,6 @@ def result(request):
                 'query_alim': best_match['product'],
                 'error': error
             }
-    
-
     return render(request, 'store/result.html', context)
 
 
@@ -93,9 +86,17 @@ def my_aliments(request):
     current_user = User.objects.get(email=request.user.email)
     fav_alim_user = Favorite.objects.filter(user=current_user)
 
+    paginator = Paginator(fav_alim_user, 6)
+
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
+
     context = {
-        "alims" : fav_alim_user
+        "alims": fav_alim_user,
+        "len": len(fav_alim_user),
+        "page_obj": page_object
     }
+
     return render(request, 'store/my_aliments.html', context)
 
 
