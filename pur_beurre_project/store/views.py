@@ -29,33 +29,54 @@ def detail(request, alim_id):
 
 
 def add_alim(request):
-    c = request.POST.get('add_alim').split("#")
-    alim_id = c[0]
-    user_email = c[1]
-    alim = Aliment.objects.get(pk=alim_id)
-    current_user = User.objects.get(email=user_email)
+    try:
+        c = request.POST.get('add_alim').split("#")
+        alim_id = c[0]
+        user_email = c[1]
+        alim = Aliment.objects.get(pk=alim_id)
+        current_user = User.objects.get(email=user_email)
 
-    if not Favorite.objects.filter(user=current_user, aliment=alim).exists():
-        Favorite.objects.create(user=current_user, aliment=alim)
-        return redirect('my_aliments')
-    else:
-        # TODO voir comment on implémente ça
-        pass
+        if not Favorite.objects.filter(user=current_user, aliment=alim).exists():
+            Favorite.objects.create(user=current_user, aliment=alim)
+            return redirect('my_aliments')
+        else:
+            # TODO voir comment on implémente ça
+            pass
+    # If we try to access the url /add_alim/ without querying
+    # we trigger the error page
+    except AttributeError:
+        query = "petit beurre"
+        best_match = find_best_match(query)
+        better_alims = find_better_alims(
+            Aliment.objects.get(name=best_match['name']))
+        error = True
+
+        context = {
+                    'alim': better_alims,
+                    'query_alim': best_match['product'],
+                    'error': error
+                }
+        return render(request, 'store/result.html', context)
 
 
 def remove_alim(request):
-    c = request.POST.get('remove_alim')
-    alim_id = c
-    alim = Aliment.objects.get(pk=alim_id)
-    current_user = User.objects.get(email=request.user.email)
+    try:
+        c = request.POST.get('remove_alim')
+        alim_id = c
+        alim = Aliment.objects.get(pk=alim_id)
+        current_user = User.objects.get(email=request.user.email)
 
-    to_del = Favorite.objects.get(user=current_user, aliment=alim)
-    to_del.delete()
+        to_del = Favorite.objects.get(user=current_user, aliment=alim)
+        to_del.delete()
 
-    current_user = User.objects.get(email=request.user.email)
-    Favorite.objects.filter(user=current_user)
+        current_user = User.objects.get(email=request.user.email)
+        Favorite.objects.filter(user=current_user)
 
-    return redirect('my_aliments')
+        return redirect('my_aliments')
+    except Aliment.DoesNotExist:
+        # If someone want to remove an aliment without the correct
+        # methods
+        return render(request, 'store/index.html')
 
 
 def result(request):
@@ -79,25 +100,31 @@ def result(request):
 
 
 def user(request):
-    return render(request, 'store/user.html')
+    if request.user.is_authenticated:
+        return render(request, 'store/user.html')
+    else:
+        return redirect("accounts/login")
 
 
 def my_aliments(request):
-    current_user = User.objects.get(email=request.user.email)
-    fav_alim_user = Favorite.objects.filter(user=current_user)
+    if request.user.is_authenticated:
+        current_user = User.objects.get(email=request.user.email)
+        fav_alim_user = Favorite.objects.filter(user=current_user)
 
-    paginator = Paginator(fav_alim_user, 6)
+        paginator = Paginator(fav_alim_user, 6)
 
-    page_number = request.GET.get('page')
-    page_object = paginator.get_page(page_number)
+        page_number = request.GET.get('page')
+        page_object = paginator.get_page(page_number)
 
-    context = {
-        "alims": fav_alim_user,
-        "len": len(fav_alim_user),
-        "page_obj": page_object
-    }
+        context = {
+            "alims": fav_alim_user,
+            "len": len(fav_alim_user),
+            "page_obj": page_object
+        }
 
-    return render(request, 'store/my_aliments.html', context)
+        return render(request, 'store/my_aliments.html', context)
+    else:
+        return redirect("accounts/login")
 
 
 def legal(request):
