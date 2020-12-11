@@ -16,17 +16,17 @@ class NewUserFormTest(TestCase):
         self.driver.find_element_by_id("id_password2").send_keys('superpassword_1&')
         self.driver.find_element_by_id("id_sign_up").click()
 
-    # def test_new_user_name_equal_exepected(self):
-    #     created_user = User.objects.get(username='TestUserSelenium')
-    #     self.assertEqual(created_user.username, "TestUserSelenium")
+    def test_new_user_name_equal_exepected(self):
+        created_user = User.objects.get(username='TestUserSelenium')
+        self.assertEqual(created_user.username, "TestUserSelenium")
 
-    # def test_new_user_str_equal_expected(self):
-    #     created_user = User.objects.get(username='TestUserSelenium')
-    #     self.assertEqual(created_user.__str__(), "TestUserSelenium")
+    def test_new_user_str_equal_expected(self):
+        created_user = User.objects.get(username='TestUserSelenium')
+        self.assertEqual(created_user.__str__(), "TestUserSelenium")
 
-    # def test_new_user_email_equal_expected(self):
-    #     created_user = User.objects.get(username='TestUserSelenium')
-    #     self.assertEqual(created_user.email, "testuser@testuserselenium.com")
+    def test_new_user_email_equal_expected(self):
+        created_user = User.objects.get(username='TestUserSelenium')
+        self.assertEqual(created_user.email, "testuser@testuserselenium.com")
 
     def tearDown(self):
         self.driver.quit()

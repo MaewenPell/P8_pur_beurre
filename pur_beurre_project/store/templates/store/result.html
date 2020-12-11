@@ -9,11 +9,23 @@
         </div>
     <header>
 </div>
-<!-- About-->
 <section class="page-section bg-primary" id="about">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'success' %}
+                            <div class="alert alert-success" role="alert">
+                                <p><i class="fa fa-check-square p-2" aria-hidden="true"></i>{{ message }}</p>
+                            </div>
+                        {% elif message.tags == 'error' %}
+                            <div class="alert alert-danger" role="alert">
+                                <p><i class="fa fa-exclamation-triangle p-2" aria-hidden="true"></i>{{ message }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                 <h2 class="text-grey mt-0">Vous pouvez remplacer cet aliment avec ceci :</h2>
                 <div class="card-deck col-12">
                     <div id="portfolio">
@@ -24,9 +36,9 @@
                         {% endif %}
                         <hr class="divider my-4" />
                         {% block card %}
-                        <div class='row'>
+                        <div class='row justify-content-center'>
                             {% for current_alim in alim %}
-                                <div class="card mb-4">
+                                <div class="card col-4">
                                     <img class="card-img-top" src="{{ current_alim.image_url }}" alt="Card image cap">
                                     <span class="badge notify-badge nutriscore-{{ current_alim.nutriscore}}">{{ current_alim.nutriscore }}</span>
                                     <div class="card-body">
@@ -36,7 +48,7 @@
                                         <form action="{% url 'add_alim' %}" method="POST">
                                         {% csrf_token %}
                                         {% if user.is_authenticated %}
-                                            <button class="btn btn-outline-warning btn-rounded btn-sm my-0 custom" name="add_alim" type="submit" value="{{ current_alim.id }}#{{ user.email }}">
+                                            <button class="btn btn-outline-warning btn-rounded btn-sm my-0 custom" name="add_alim" type="submit" value="{{ current_alim.id }}">
                                                 <i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>Sauvegarder
                                             </button>
                                         {% else %}
@@ -48,7 +60,7 @@
                                 </div>
                                 {% if forloop.counter == 3 %}
                                     </div>
-                                    <div class='row'>   
+                                    <div class='row justify-content-center mt-3'>   
                                 {% endif %}
                             {% endfor %}
                         </div>

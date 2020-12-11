@@ -10433,3 +10433,9 @@ header.masthead h1 {
   transform: translateX(-50%);
   bottom: 1.25rem;
 }
+
+form.ul-none ul{
+  list-style-type: none !important;
+  padding-left: 0;
+  text-align: center;
+}

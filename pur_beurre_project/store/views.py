@@ -7,6 +7,9 @@ from django.shortcuts import redirect, render
 from store.forms.forms import SignUpForm
 from store.models import Aliment, Favorite
 from store.services.db_lookup import find_best_match, find_better_alims
+from django.contrib import messages
+
+from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -30,33 +33,20 @@ def detail(request, alim_id):
 
 def add_alim(request):
     try:
-        c = request.POST.get('add_alim').split("#")
-        alim_id = c[0]
-        user_email = c[1]
+        alim_id = request.POST.get('add_alim')
         alim = Aliment.objects.get(pk=alim_id)
-        current_user = User.objects.get(email=user_email)
+        current_user = User.objects.get(email=request.user.email)
 
         if not Favorite.objects.filter(user=current_user, aliment=alim).exists():
             Favorite.objects.create(user=current_user, aliment=alim)
-            return redirect('my_aliments')
+            messages.success(request, 'Aliment ajouté aux favoris')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
-            # TODO voir comment on implémente ça
-            pass
-    # If we try to access the url /add_alim/ without querying
-    # we trigger the error page
+            messages.error(request, 'Aliment déjà présent dans vos favoris')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     except AttributeError:
-        query = "petit beurre"
-        best_match = find_best_match(query)
-        better_alims = find_better_alims(
-            Aliment.objects.get(name=best_match['name']))
-        error = True
-
-        context = {
-                    'alim': better_alims,
-                    'query_alim': best_match['product'],
-                    'error': error
-                }
-        return render(request, 'store/result.html', context)
+        messages.error(request, "Cet aliment n'est pas présent dans notre base de donnée")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def remove_alim(request):
@@ -72,29 +62,28 @@ def remove_alim(request):
         current_user = User.objects.get(email=request.user.email)
         Favorite.objects.filter(user=current_user)
 
+        messages.success(request, 'Aliment retiré des favoris')
         return redirect('my_aliments')
     except Aliment.DoesNotExist:
         # If someone want to remove an aliment without the correct
         # methods
-        return render(request, 'store/index.html')
+        messages.error(request, "Cet aliment n'est pas présent dans notre base de donnée")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def result(request):
     query = request.GET.get('search_alim')
-    error = False
     try:
         best_match = find_best_match(query)
         better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
     except Aliment.DoesNotExist:
-        query = "petit beurre"
-        best_match = find_best_match(query)
-        better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
-        error = True
+        print("passed")
+        messages.error(request, "Cet aliment n'est pas présent dans notre base de donnée")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     context = {
                 'alim': better_alims,
                 'query_alim': best_match['product'],
-                'error': error
             }
     return render(request, 'store/result.html', context)
 
