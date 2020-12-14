@@ -38,22 +38,22 @@
                     </form>
                     <li class="nav-item my-auto">
                         {% if user.is_authenticated %}
-                            <a class="nav-link js-scroll-trigger" href="{% url 'user' %}"><i class="fas fa-user fa-lg"></i></a>
+                            <a id="id_profile" class="nav-link js-scroll-trigger" href="{% url 'user' %}"><i class="fas fa-user fa-lg"></i></a>
                         {% else %}
-                            <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-user fa-lg"></i></a>
+                            <a id="id_login" class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-user fa-lg"></i></a>
                         {% endif %}
                     </li>
                     <li class="nav-item my-auto">
                         {% if user.is_authenticated %}
                             <a class="nav-link js-scroll-trigger" href="{% url 'my_aliments' %}"><i class="fas fa-carrot fa-lg"></i></a>
                         {% else %}
-                            <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-carrot fa-lg"></i></a>
+                            <a id="login" class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-carrot fa-lg"></i></a>
                         {% endif %}
                         
                     </li>
                     <li class="nav-item my-auto">
                         {% if user.is_authenticated %}
-                            <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                            <a id="logout" class="nav-link js-scroll-trigger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
                         {% else %}
                             <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
                         {% endif %}

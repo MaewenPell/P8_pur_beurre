@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.urls import reverse
 from store.models import Aliment, Category
 
 
@@ -26,7 +25,7 @@ class ViewsResponseTest(TestCase):
         self.assertEqual(self.client.get(f'/detail/{self.test_alim.pk}/').status_code, 200)
 
     def test_result_url_exists_at_desired_location(self):
-        self.assertEqual(self.client.get('/result?search_alim=Test+alim').status_code, 200)
+        self.assertEqual(self.client.get('/result?search_alim=Test+alim').status_code, 302)
 
     def test_legal_url_exists_at_desired_location(self):
         self.assertEqual(self.client.get('/legal').status_code, 200)
@@ -35,10 +34,10 @@ class ViewsResponseTest(TestCase):
         self.assertEqual(self.client.get('/contact').status_code, 200)
 
     def test_add_alim_url_exists_at_desired_location(self):
-        self.assertEqual(self.client.get('/add_alim/').status_code, 200)
+        self.assertEqual(self.client.get('/add_alim/').status_code, 302)
 
     def test_remove_url_exists_at_desired_location(self):
-        self.assertEqual(self.client.get('/remove_alim/').status_code, 200)
+        self.assertEqual(self.client.get('/remove_alim/').status_code, 302)
 
     def test_account_register_url_exists_at_desired_location(self):
         self.assertEqual(self.client.get('/accounts/register').status_code, 200)

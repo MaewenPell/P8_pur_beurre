@@ -5,17 +5,19 @@ from django.core.paginator import Paginator
 import numpy as np
 
 
-
 def find_best_match(query: str):
     best_match = {
+                  'temp_name': 'temp_name',
                   'name': 'name',
                   'similarity': 0
                  }
     if Aliment.objects.filter(name__icontains=query).exists():
         query_alim = Aliment.objects.filter(name__icontains=query)
         for alim in query_alim:
-            similarity = SequenceMatcher(None, alim.name, best_match['name']).ratio()
+            temp_name = alim.name.replace(' ', '')
+            similarity = SequenceMatcher(None, temp_name, best_match['temp_name']).ratio()
             if similarity > best_match['similarity']:
+                best_match['temp_name'] = temp_name
                 best_match['similarity'] = similarity
                 best_match['name'] = alim.name
                 best_match['product'] = alim
@@ -24,7 +26,7 @@ def find_best_match(query: str):
 
 
 def find_better_alims(alim: Aliment):
-    db_query = Q(nutriscore__lte=alim.nutriscore)
+    db_query = Q(nutriscore__lt=alim.nutriscore)
     db_query.add(Q(category=alim.category), Q.AND)
 
     better_alim = Aliment.objects.filter(db_query).order_by("nutriscore")[0:6]
@@ -32,9 +34,7 @@ def find_better_alims(alim: Aliment):
     return better_alim
 
 
-def add_aliment_in_favorite(request):
-    alim_id = request.POST.get('add_alim')
-    current_user = User.objects.get(email=request.user.email)
+def add_aliment_in_favorite(alim_id, current_user):
     try:
         alim = Aliment.objects.get(pk=alim_id)
 
@@ -61,18 +61,11 @@ def get_alim(alim_id: int):
     return context
 
 
-def remove_alim_from_favorite(request):
+def remove_alim_from_favorite(alim_id, user):
     try:
-        c = request.POST.get('remove_alim')
-        alim_id = c
         alim = Aliment.objects.get(pk=alim_id)
-        current_user = User.objects.get(email=request.user.email)
-
-        to_del = Favorite.objects.get(user=current_user, aliment=alim)
-        to_del.delete()
-
-        current_user = User.objects.get(email=request.user.email)
-        Favorite.objects.filter(user=current_user)
+        entry_to_del = Favorite.objects.get(user=user, aliment=alim)
+        entry_to_del.delete()
         return "success"
 
     except Aliment.DoesNotExist:

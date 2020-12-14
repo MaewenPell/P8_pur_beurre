@@ -1,4 +1,4 @@
-from store.models import Aliment, Category
+from store.models import Aliment, Category, User, Favorite
 from django.test import TestCase
 
 
@@ -51,3 +51,29 @@ class TestAlimentsCategories(TestCase):
 
     def test_str_alim_name_equals(self):
         self.assertEqual(self.test_alim.__str__(), self.test_alim.name)
+
+
+class TestFavoriteCategory(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Category.objects.create(category="Biscuits et gâteaux")
+        test_cat = Category.objects.get(category="Biscuits et gâteaux")
+        Aliment.objects.create(category=test_cat, name="petit beurre",
+                               nutriscore="D",
+                               image_url="https://test1.jpg",
+                               product_url="https://test1.fr",
+                               sugar="23",
+                               fat="12", salt="1.39", energy="1832")
+        User.objects.create(email="test_user@test.com")
+
+    def setUp(self):
+        self.test_alim = Aliment.objects.get(name="petit beurre")
+        self.test_user = User.objects.get(email="test_user@test.com")
+        Favorite.objects.create(user=self.test_user, aliment=self.test_alim)
+
+    def test_user_created(self):
+        self.assertEqual(self.test_user.email, "test_user@test.com")
+
+    def test_favorite_created(self):
+        fav = Favorite.objects.get(user=self.test_user, aliment=self.test_alim)
+        self.assertEqual(fav.aliment.name, "petit beurre")

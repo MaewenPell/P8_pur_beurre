@@ -1,48 +1,49 @@
 from django.test import TestCase
 from selenium.webdriver import Firefox
 from django.contrib.auth.models import User
+from selenium.webdriver.common.keys import Keys
 from django.contrib import auth
+from time import sleep
 
 
 class NewUserFormTest(TestCase):
     def setUp(self):
-        self.driver = Firefox()
-
-    def test_FormRegister(self):
+        self.driver = Firefox(executable_path='/usr/local/bin/geckodriver')
         self.driver.get("http://127.0.0.1:8000/accounts/register")
+
+    def test_register_user(self):
         self.driver.find_element_by_id("id_username").send_keys('TestUserSelenium')
         self.driver.find_element_by_id("id_email").send_keys('testuser@testuserselenium.com')
         self.driver.find_element_by_id("id_password1").send_keys('superpassword_1&')
         self.driver.find_element_by_id("id_password2").send_keys('superpassword_1&')
         self.driver.find_element_by_id("id_sign_up").click()
 
-    def test_new_user_name_equal_exepected(self):
-        created_user = User.objects.get(username='TestUserSelenium')
-        self.assertEqual(created_user.username, "TestUserSelenium")
+        sleep(3)
 
-    def test_new_user_str_equal_expected(self):
-        created_user = User.objects.get(username='TestUserSelenium')
-        self.assertEqual(created_user.__str__(), "TestUserSelenium")
-
-    def test_new_user_email_equal_expected(self):
-        created_user = User.objects.get(username='TestUserSelenium')
-        self.assertEqual(created_user.email, "testuser@testuserselenium.com")
+        self.driver.find_element_by_id("id_profile").click()
+        self.assertEqual(self.driver.current_url, "http://127.0.0.1:8000/user")
+        greetings = self.driver.find_element_by_id("greetings")
+        self.assertEqual(greetings.text, "Bonjour TestUserSelenium")
 
     def tearDown(self):
         self.driver.quit()
 
 
-class NewUserAddFavorite(TestCase):
+class UserStory(TestCase):
     def setUp(self):
         self.driver = Firefox(executable_path='/usr/local/bin/geckodriver')
-        self.response = self.driver.get("http://127.0.0.1:8000/accounts/login/")
+        self.driver.get("http://127.0.0.1:8000/")
+
+    def test_connect(self):
+        self.driver.find_element_by_id("id_login").click()
         self.driver.find_element_by_id("id_username").send_keys('TestUserSelenium')
         self.driver.find_element_by_id("id_password").send_keys('superpassword_1&')
+        self.driver.find_element_by_id("id_password").send_keys(Keys.RETURN)
 
-    def test_redirection_index(self):
-        self.driver.find_element_by_id("id_login").click()
-        self.assertEqual(self.driver.current_url, "http://127.0.0.1:8000/")
+        sleep(3)
 
-    def tearDown(self):
-        pass
-        # self.driver.quit()
+        self.driver.find_element_by_id('id_profile').click()
+        greetings = self.driver.find_element_by_id("greetings")
+        self.assertEqual(self.driver.current_url, "http://127.0.0.1:8000/user")
+        self.assertEqual(greetings.text, "Bonjour TestUserSelenium")
+

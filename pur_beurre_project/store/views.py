@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 
 import store.services.db_lookup as db_lookup
 from store.forms.forms import SignUpForm
+from store.models import User
 
 
 def index(request):
@@ -16,7 +17,12 @@ def detail(request, alim_id):
 
 
 def add_alim(request):
-    message = db_lookup.add_aliment_in_favorite(request)
+    if request.user.is_authenticated:
+        alim_id = request.POST.get('add_alim')
+        current_user = User.objects.get(email=request.user.email)
+        message = db_lookup.add_aliment_in_favorite(alim_id, current_user)
+    else:
+        return redirect("accounts/login")
 
     if message == "success":
         messages.success(request, 'Aliment ajouté aux favoris')
@@ -29,7 +35,9 @@ def add_alim(request):
 
 
 def remove_alim(request):
-    status = db_lookup.remove_alim_from_favorite(request)
+    alim_id = request.POST.get('remove_alim')
+    user = User.objects.get(email=request.user.email)
+    status = db_lookup.remove_alim_from_favorite(alim_id, user)
     if status == "success":
         messages.success(request, 'Aliment retiré des favoris')
     else:
