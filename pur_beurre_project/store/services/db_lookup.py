@@ -77,14 +77,23 @@ def get_results_from_research(request):
     try:
         best_match = find_best_match(query)
         better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
+        error = False
     except Aliment.DoesNotExist:
-        return "unkown"
+        better_alims, best_match = return_default_value()
+        error = True
 
     context = {
         'alim': better_alims,
-        'query_alim': best_match['product'],
+        'query_alim': best_match['product']
     }
-    return context
+    return context, error
+
+
+def return_default_value():
+    query = "petit beurre"
+    best_match = find_best_match(query)
+    better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
+    return better_alims, best_match
 
 
 def get_user_favorite_alims(request):

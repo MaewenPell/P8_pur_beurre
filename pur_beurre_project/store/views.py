@@ -35,20 +35,25 @@ def add_alim(request):
 
 
 def remove_alim(request):
-    alim_id = request.POST.get('remove_alim')
-    user = User.objects.get(email=request.user.email)
-    status = db_lookup.remove_alim_from_favorite(alim_id, user)
-    if status == "success":
-        messages.success(request, 'Aliment retiré des favoris')
+    if request.user.is_authenticated:
+        alim_id = request.POST.get('remove_alim')
+        user = User.objects.get(email=request.user.email)
+        status = db_lookup.remove_alim_from_favorite(alim_id, user)
+        if status == "success":
+            messages.success(request, 'Aliment retiré des favoris')
+        else:
+            messages.error(request, "Cet aliment n'est pas présent dans notre base de donnée")
+        return redirect('my_aliments')
     else:
-        messages.error(request, "Cet aliment n'est pas présent dans notre base de donnée")
-    return redirect('my_aliments')
+        return redirect("accounts/login")
 
 
 def result(request):
-    context = db_lookup.get_results_from_research(request)
-    if context == "unkown":
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    context, error = db_lookup.get_results_from_research(request)
+    if error:
+        messages.error(request,
+                       "Cet aliment n'est pas présent dans notre base de donnée \
+            affichons le nôtre à la place !")
     return render(request, 'store/result.html', context)
 
 

@@ -29,11 +29,6 @@
                 <h2 class="text-grey mt-0">Vous pouvez remplacer cet aliment avec ceci :</h2>
                 <div class="card-deck col-12">
                     <div id="portfolio">
-                        {% if error %}
-                        <div class="alert alert-warning">
-                            <strong>Oups !</strong> Nous n'avons pas trouvé votre aliment, du coup nous affichons le nôtre !
-                        </div>
-                        {% endif %}
                         <hr class="divider my-4" />
                         {% block card %}
                         <div class='row justify-content-center'>

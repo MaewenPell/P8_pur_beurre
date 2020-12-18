@@ -9,7 +9,7 @@ class ViewsResponseTest(TestCase):
         test_cat = Category.objects.get(category="Biscuits et gâteaux")
         Aliment.objects.create(category=test_cat, name="petit beurre",
                                nutriscore="X",
-                               image_url="https://static.openfoodfacts.org/images/products/762/221/047/6104/front_fr.53.400.jpg",
+                               image_url="https://static.openfoodfacts.org/images/products/53.400.jpg",
                                product_url="https://fr.openfoodfacts.org/produit/7622210476104/lu",
                                sugar="23",
                                fat="12", salt="1.39", energy="1832")
@@ -25,7 +25,7 @@ class ViewsResponseTest(TestCase):
         self.assertEqual(self.client.get(f'/detail/{self.test_alim.pk}/').status_code, 200)
 
     def test_result_url_exists_at_desired_location(self):
-        self.assertEqual(self.client.get('/result?search_alim=Test+alim').status_code, 302)
+        self.assertEqual(self.client.get('/result?search_alim=Test+alim').status_code, 200)
 
     def test_legal_url_exists_at_desired_location(self):
         self.assertEqual(self.client.get('/legal').status_code, 200)

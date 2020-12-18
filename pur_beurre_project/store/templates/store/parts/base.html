@@ -17,6 +17,7 @@
 
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" type="text/css" href="{% static 'store/css/styles.css' %}" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'store/favicon.ico' %}"/>
 
 </head>
 
@@ -45,17 +46,17 @@
                     </li>
                     <li class="nav-item my-auto">
                         {% if user.is_authenticated %}
-                            <a class="nav-link js-scroll-trigger" href="{% url 'my_aliments' %}"><i class="fas fa-carrot fa-lg"></i></a>
+                            <a id="id_my_alim" class="nav-link js-scroll-trigger" href="{% url 'my_aliments' %}"><i class="fas fa-carrot fa-lg"></i></a>
                         {% else %}
-                            <a id="login" class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-carrot fa-lg"></i></a>
+                            <a id="id_login" class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-carrot fa-lg"></i></a>
                         {% endif %}
                         
                     </li>
                     <li class="nav-item my-auto">
                         {% if user.is_authenticated %}
-                            <a id="logout" class="nav-link js-scroll-trigger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                            <a id="id_logout" class="nav-link js-scroll-trigger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-lg"></i></a>
                         {% else %}
-                            <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
+                            <a id="id_login" class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-lg"></i></a>
                         {% endif %}
                     </li>
                 </ul>
