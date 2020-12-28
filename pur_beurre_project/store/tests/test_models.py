@@ -8,8 +8,10 @@ class TestAlimentsCategories(TestCase):
         Category.objects.create(category="Test Category")
         test_cat = Category.objects.get(category="Test Category")
         Aliment.objects.create(category=test_cat, name="Test alim",
-                               nutriscore="X", image_url="https://image_url.org",
-                               product_url="https://product_url.org", sugar="X",
+                               nutriscore="X",
+                               image_url="https://image_url.org",
+                               product_url="https://product_url.org",
+                               sugar="X",
                                fat="Y", salt="Z", energy="ABC")
 
     def setUp(self):

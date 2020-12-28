@@ -15,7 +15,8 @@ def find_best_match(query: str):
         query_alim = Aliment.objects.filter(name__icontains=query)
         for alim in query_alim:
             temp_name = alim.name.replace(' ', '')
-            similarity = SequenceMatcher(None, temp_name, best_match['temp_name']).ratio()
+            similarity = SequenceMatcher(None, temp_name,
+                                         best_match['temp_name']).ratio()
             if similarity > best_match['similarity']:
                 best_match['temp_name'] = temp_name
                 best_match['similarity'] = similarity
@@ -38,7 +39,8 @@ def add_aliment_in_favorite(alim_id, current_user):
     try:
         alim = Aliment.objects.get(pk=alim_id)
 
-        if not Favorite.objects.filter(user=current_user, aliment=alim).exists():
+        if not Favorite.objects.filter(user=current_user,
+                                       aliment=alim).exists():
             Favorite.objects.create(user=current_user, aliment=alim)
             return "success"
         else:
@@ -76,7 +78,8 @@ def get_results_from_research(request):
     query = request.GET.get('search_alim')
     try:
         best_match = find_best_match(query)
-        better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
+        better_alims = find_better_alims(Aliment.objects.get(
+            name=best_match['name']))
         error = False
     except Aliment.DoesNotExist:
         better_alims, best_match = return_default_value()
@@ -92,12 +95,14 @@ def get_results_from_research(request):
 def return_default_value():
     query = "petit beurre"
     best_match = find_best_match(query)
-    better_alims = find_better_alims(Aliment.objects.get(name=best_match['name']))
+    better_alims = find_better_alims(Aliment.objects.get(
+        name=best_match['name']))
     return better_alims, best_match
 
 
 def get_user_favorite_alims(request):
-    fav_alim_user = Favorite.objects.filter(user=User.objects.get(email=request.user.email))
+    fav_alim_user = Favorite.objects.filter(
+        user=User.objects.get(email=request.user.email))
 
     paginator = Paginator(fav_alim_user, 6)
 

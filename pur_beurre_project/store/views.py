@@ -29,7 +29,8 @@ def add_alim(request):
     elif message == "present":
         messages.error(request, 'Aliment déjà présent dans vos favoris')
     else:
-        messages.error(request, "Cet aliment n'est pas présent dans notre base de donnée")
+        messages.error(
+            request, "Cet aliment n'est pas présent dans notre base de donnée")
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -42,7 +43,9 @@ def remove_alim(request):
         if status == "success":
             messages.success(request, 'Aliment retiré des favoris')
         else:
-            messages.error(request, "Cet aliment n'est pas présent dans notre base de donnée")
+            messages.error(
+                request,
+                "Cet aliment n'est pas présent dans notre base de donnée")
         return redirect('my_aliments')
     else:
         return redirect("accounts/login")

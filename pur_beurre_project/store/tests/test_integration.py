@@ -11,14 +11,17 @@ class NewUserFormTest(LiveServerTestCase):
         Category.objects.create(category="Test Category")
         test_cat = Category.objects.get(category="Test Category")
         Aliment.objects.create(category=test_cat, name="Test alim",
-                               nutriscore="X", image_url="https://image_url.org",
-                               product_url="https://product_url.org", sugar="X",
+                               nutriscore="X",
+                               image_url="https://image_url.org",
+                               product_url="https://product_url.org",
+                               sugar="X",
                                fat="Y", salt="Z", energy="ABC")
         Aliment.objects.create(category=test_cat, name="Better Alim",
                                nutriscore="A", image_url="https://dsqd.org",
                                product_url="https://dqs.org", sugar="X",
                                fat="Y", salt="Z", energy="ABC")
-        # User.objects.create(username="Testuser_2", email="bla@blala.com", password="abd1234@dsdq")
+        # User.objects.create(username="Testuser_2",
+        # email="bla@blala.com", password="abd1234@dsdq")
         User = get_user_model()
         user = User.objects.create_user('Testuser_2', password='abd1234@dsdq')
         user.is_superuser = False
@@ -75,15 +78,16 @@ class NewUserFormTest(LiveServerTestCase):
         self.driver.find_element_by_xpath("/html/body/nav/div/a").click()
         sleep(3)
         self.driver.find_element_by_xpath(
-            "/html/body/header/div/div/div[2]/form/input").send_keys('Test alim')
+            "/html/body/header/div/div/div[2]/form/input").send_keys(
+                'Test alim')
         self.driver.find_element_by_xpath(
             "/html/body/header/div/div/div[2]/form/button").click()
 
         nutriscore = self.driver.find_element_by_xpath(
             "/html/body/section/div/div/div/div/div/div/div/span").text
-
         button_add = self.driver.find_element_by_xpath(
-            "/html/body/section/div/div/div/div/div/div[1]/div[1]/div/form/button")
+            "/html/body/section/div/div/div/div/div/div[1]/\
+                div[1]/div/form/button")
         self.assertTrue(button_add.is_enabled)
         self.assertLess(nutriscore, "X")
 
@@ -95,16 +99,19 @@ class NewUserFormTest(LiveServerTestCase):
         self.driver.find_element_by_xpath("/html/body/nav/div/a").click()
         sleep(3)
         self.driver.find_element_by_xpath(
-            "/html/body/header/div/div/div[2]/form/input").send_keys('Test alim')
+            "/html/body/header/div/div/div[2]/form/input").send_keys(
+                'Test alim')
         self.driver.find_element_by_xpath(
             "/html/body/header/div/div/div[2]/form/button").click()
 
         # We add an alim
         self.driver.find_element_by_xpath(
-            "/html/body/section/div/div/div/div/div/div[1]/div[1]/div/form/button").click()
+            "/html/body/section/div/div/div/div/div/div[1]/\
+                div[1]/div/form/button").click()
 
         # We check that it's displayed in my_alim
-        self.driver.find_element_by_xpath("/html/body/nav/div/div/ul/li[2]/a/i").click()
+        self.driver.find_element_by_xpath("/html/body/nav/div/\
+            div/ul/li[2]/a/i").click()
         title_alim = self.driver.find_element_by_xpath(
             "/html/body/section/div/div/div/div/div/div[1]/div/div/a/h4").text
 
@@ -118,20 +125,23 @@ class NewUserFormTest(LiveServerTestCase):
         self.driver.find_element_by_xpath("/html/body/nav/div/a").click()
         sleep(3)
         self.driver.find_element_by_xpath(
-            "/html/body/header/div/div/div[2]/form/input").send_keys('Test alim')
+            "/html/body/header/div/div/div[2]/form/input").send_keys(
+                'Test alim')
         self.driver.find_element_by_xpath(
             "/html/body/header/div/div/div[2]/form/button").click()
 
         # We add an alim
         self.driver.find_element_by_xpath(
-            "/html/body/section/div/div/div/div/div/div[1]/div[1]/div/form/button").click()
+            "/html/body/section/div/div/div/div/div/div[1]/\
+                div[1]/div/form/button").click()
 
         # We remove it from my alims
         self.driver.find_element_by_xpath(
             "/html/body/nav/div/div/ul/li[2]/a/i").click()
 
         self.driver.find_element_by_xpath(
-            "/ html/body/section/div/div/div/div/div/div[1]/div[1]/div/form/button"
+            "/ html/body/section/div/div/div/div/div/\
+                div[1]/div[1]/div/form/button"
         ).click()
 
         message = self.driver.find_element_by_xpath(

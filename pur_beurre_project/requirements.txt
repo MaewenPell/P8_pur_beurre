@@ -1,6 +1,7 @@
 django
 numpy
 psycopg2
+requests
 django-extensions
 selenium
 coverage
