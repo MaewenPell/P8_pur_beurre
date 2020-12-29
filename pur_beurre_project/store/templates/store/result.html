@@ -27,13 +27,15 @@
                     {% endfor %}
                 {% endif %}
                 <h2 class="text-grey mt-0">Vous pouvez remplacer cet aliment avec ceci :</h2>
-                <div class="card-deck col-12">
-                    <div id="portfolio">
-                        <hr class="divider my-4" />
-                        {% block card %}
-                        <div class='row justify-content-center'>
-                            {% for current_alim in alim %}
-                                <div class="card col-4">
+                <hr class="divider my-4" />
+
+                
+
+                <div class="row row-cols-2 row-cols-md-3" id="portfolio">
+                    {% block card %}
+                        {% for current_alim in alim %}
+                            <div class="col mb-4">
+                                <div class="card h-100">
                                     <img class="card-img-top" src="{{ current_alim.image_url }}" alt="Card image cap">
                                     <span class="badge notify-badge nutriscore-{{ current_alim.nutriscore}}">{{ current_alim.nutriscore }}</span>
                                     <div class="card-body">
@@ -53,14 +55,9 @@
                                         {% endif %}
                                     </div>
                                 </div>
-                                {% if forloop.counter == 3 %}
-                                    </div>
-                                    <div class='row justify-content-center mt-3'>   
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        {% endblock card %}
-                    </div>
+                            </div>
+                        {% endfor %}
+                    {% endblock card %}
                 </div>
             </div>
         </div>

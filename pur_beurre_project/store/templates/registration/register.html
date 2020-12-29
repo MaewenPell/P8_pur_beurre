@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<section class="page-section h-100 p-10" id="contact">
+<section class="page-section p-10" id="contact">
     <div class="container text-center">
         <h1 class="text-center"> Création d'un nouvel utilisateur </h1>
         <hr class="divider my-4"/>
@@ -24,9 +24,10 @@
             {% endfor %}
             <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit" id="id_sign_up">Sign up</button>
         </form>
+
+        <hr class="divider my-4"/>
+        <p class='text-grey-75 font-weight-light mb-5 text-center'>Déjà un compte ? <br>
+        <a href="{% url 'login' %}">Se connecter</a></p>
     </div>
 </section>
-<hr class="divider my-2"/>
-<p class='text-grey-75 font-weight-light mb-5 text-center'>Déjà un compte ? <br>
-<a href="{% url 'login' %}">Se connecter</a></p>
 {% endblock content %}

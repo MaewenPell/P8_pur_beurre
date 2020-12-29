@@ -4,10 +4,13 @@
 {% block content %}
 <div class="container-fluid p-10 mb-0">
     <header class=' row header-image align-items-center justify-content-center aligner'>
-        <div class="col-12">
+        <div class="col-12 flex-column justify-content-center">
             <h1 class="text-white font-weight-bold">Mes aliments</h1>
+            {% if len > 0 %}
+                <p class="mt-3 lead text-white">Voici vos aliments sauvegardés</p>
+            {% endif %}
         </div>
-        <header>
+    <header>
 </div>
 
 
@@ -28,64 +31,70 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                {% if len > 0 %}
-                    <h2 class="text-grey mt-0">Voici vos aliments sauvegardés</h2>
-                {% else %}
+
+                {% if len == 0 %}
                     <h2 class="text-grey mt-0">Vous n'avez aucun aliment sauvegardé</h2>
                 {% endif %}
-                <div class="card-deck col-12">
-                    <div id="portfolio">
-                        <hr class="divider my-4" />
+
+
+                <div class="row row-cols-2 row-cols-md-3" id="portfolio">
                         {% block card %}
-                        <div class='row justify-content-center'>
                             {% if len > 0 %}
                                 {% for current_alim in page_obj %}
-                                <div class="card col-4">
-                                    <img class="card-img-top" src="{{ current_alim.aliment.image_url }}"
-                                        alt="Card image cap">
-                                    <span
-                                        class="badge notify-badge nutriscore-{{ current_alim.aliment.nutriscore}}">{{ current_alim.aliment.nutriscore }}</span>
-                                    <div class="card-body">
-                                        <a href="{% url 'detail' current_alim.aliment.id %}" target="_blank"
-                                            rel="noopener noreferrer">
-                                            <h4 class="card-title">{{ current_alim.aliment.name }}</h4>
-                                        </a>
-                                        <form action="{% url 'remove_alim' %}" method="POST">
-                                            {% csrf_token %}
-                                            <button class="btn btn-outline-warning btn-rounded btn-sm my-0 custom"
-                                                name="remove_alim" type="submit" value="{{ current_alim.aliment.id }}">
-                                                <i class="fas fa-trash-alt fa-2x" aria-hidden="true"></i>Retirer
-                                            </button>
-                                        </form>
+                                    <div class="col mb-4">
+                                        <div class="card h-100">
+                                            <img class="card-img-top" src="{{ current_alim.aliment.image_url }}"
+                                                alt="Card image cap">
+                                            <span
+                                                class="badge notify-badge nutriscore-{{ current_alim.aliment.nutriscore}}">{{ current_alim.aliment.nutriscore }}</span>
+                                            <div class="card-body">
+                                                <a href="{% url 'detail' current_alim.aliment.id %}" target="_blank"
+                                                    rel="noopener noreferrer">
+                                                    <h4 class="lead">{{ current_alim.aliment.name }}</h4>
+                                                </a>
+                                                <form action="{% url 'remove_alim' %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-outline-warning btn-rounded btn-sm my-0 custom d-flex align-items-center"
+                                                        name="remove_alim" type="submit" value="{{ current_alim.aliment.id }}">
+                                                        <i class="fas fa-trash-alt mr-2" aria-hidden="true"></i>
+                                                        Retirer
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                {% if forloop.counter == 3 %}
-                                    </div>
-                                    <div class='row justify-content-center mt-3'>
-                                {% endif %}
-                            {% endfor %}
+                                {% endfor %}
                             {% endif %}
-                        </div>
-                        {% endblock card %}
-                        <div class="pagination">
-                            <span class="step-links">
-                                {% if page_obj.has_previous %}
-                                    <a href="?page=1">&laquo; first</a>
-                                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                                {% endif %}
-
-                                <span class="current">
-                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                                </span>
-
-                                {% if page_obj.has_next %}
-                                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                                {% endif %}
-                            </span>
-                        </div>
-                    </div>
+                        {% endblock %}
                 </div>
+
+                <nav>
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            </li>
+                            <li class="page-item">
+                                <a class='page-link' href="?page=1">&laquo; first</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item disabled">
+                            <span class="page-link">
+                                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+                            </span>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Dernière &raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

@@ -10,68 +10,71 @@
     <header>
 </div>
     <section class="page-section bg-primary">
-        <div class="container col-md-10 d-flex justify-content-center">
-            <div class="col-md-3 text-center mr-5">
-                <img class='img-fluid' src="{% static 'store/assets/img/nutriscores/' %}{{ alim.nutriscore }}.png " alt='c_logo' />
-            </div>
-            <div class="card col-md-6 ml-5">
-                <h3 class="text-center mx-3 my-3">Repères nutritionnels</h3>
-                <div class="px-4">
-                    <div class="table-wrapper">
-                        <table class="table mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="th-lg align-top">Sucres</th>
-                                    <th class="th-lg align-top">Graisses</th>
-                                    <th class="th-lg align-top">Sel</th>
-                                    <th class="th-lg align-top">Energie</th>
-                                </tr>
-                            </thead>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center">
+                    <img class='w-75 w-sm-100' src="{% static 'store/assets/img/nutriscores/' %}{{ alim.nutriscore }}.png " alt='c_logo' />
+                </div>
+                <div class="col-md-8 offset-md-1">
+                    <div class="card mt-5 mt-md-0">
+                        <h3 class="text-center mx-3 my-3">Repères nutritionnels</h3>
+                        <div class="px-4">
+                            <div class="table-wrapper">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-lg align-top">Sucres</th>
+                                            <th class="th-lg align-top">Graisses</th>
+                                            <th class="th-lg align-top">Sel</th>
+                                            <th class="th-lg align-top">Energie</th>
+                                        </tr>
+                                    </thead>
 
-                            <tbody>
-                                <tr>
-                                    {% if nutrim.sugar < 5 %}
-                                        <td class='good'>
-                                    {% elif nutrim.sugar < 12.5 %}
-                                        <td class='average'>
-                                    {% else %}
-                                        <td class='bad'>
-                                    {% endif %}
-                                        <i class="fas fa-circle pr-1"></i>{{alim.sugar}}g
-                                        </td>
+                                    <tbody>
+                                        <tr>
+                                            {% if nutrim.sugar < 5 %}
+                                                <td class='good'>
+                                            {% elif nutrim.sugar < 12.5 %}
+                                                <td class='average'>
+                                            {% else %}
+                                                <td class='bad'>
+                                            {% endif %}
+                                                <i class="fas fa-circle pr-1"></i>{{alim.sugar}}g
+                                                </td>
 
-                                    {% if nutrim.fat < 3 %}
-                                        <td class='good'>
-                                    {% elif nutrim.fat < 20 %}
-                                        <td class='average'>
-                                    {% else %}
-                                        <td class='bad'>
-                                    {% endif %}
-                                        <i class="fas fa-circle pr-1"></i>{{alim.fat}} g
-                                        </td>
-                                    
-                                    {% if nutrim.salt < 0.3 %}
-                                        <td class='good'>
-                                    {% elif nutrim.salt < 1.5 %}
-                                        <td class='average'>
-                                    {% else %}
-                                        <td class='bad'>
-                                    {% endif %}
-                                        <i class="fas fa-circle pr-1"></i>{{alim.salt}} g
-                                        </td>  
+                                            {% if nutrim.fat < 3 %}
+                                                <td class='good'>
+                                            {% elif nutrim.fat < 20 %}
+                                                <td class='average'>
+                                            {% else %}
+                                                <td class='bad'>
+                                            {% endif %}
+                                                <i class="fas fa-circle pr-1"></i>{{alim.fat}} g
+                                                </td>
+                                            
+                                            {% if nutrim.salt < 0.3 %}
+                                                <td class='good'>
+                                            {% elif nutrim.salt < 1.5 %}
+                                                <td class='average'>
+                                            {% else %}
+                                                <td class='bad'>
+                                            {% endif %}
+                                                <i class="fas fa-circle pr-1"></i>{{alim.salt}} g
+                                                </td>  
 
-                                    <td>{{ alim.energy }} Kcal</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                            <td>{{ alim.energy }} Kcal</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <row>
-            <hr class='divider my-5'>
             <div class='text-center'>
-                <a class="btn btn-outline-warning btn-rounded btn-sm" href={{ alim.product_url }} target='_blank'>
+                <a class="btn btn-outline-warning mt-5 btn-rounded btn-sm" href={{ alim.product_url }} target='_blank'>
                     <i class="fa fa-floppy-o p-2"aria-hidden="true"></i>
                     Voir la fiche d'openFoodFact
                 </a>
