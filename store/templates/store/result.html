@@ -36,7 +36,7 @@
                         {% for current_alim in alim %}
                             <div class="col mb-4">
                                 <div class="card h-100">
-                                    <img class="card-img-top" src="{{ current_alim.image_url }}" alt="Card image cap">
+                                    <img class="card-img-top" src="{{ current_alim.image_url }}" alt="Card image cap" style="object-fit : contain;">
                                     <span class="badge notify-badge nutriscore-{{ current_alim.nutriscore}}">{{ current_alim.nutriscore }}</span>
                                     <div class="card-body">
                                         <a href="{% url 'detail' current_alim.id %}" target="_blank" rel="noopener noreferrer">
