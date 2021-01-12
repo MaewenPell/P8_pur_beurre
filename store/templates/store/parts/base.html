@@ -37,7 +37,7 @@
                 <!-- Search form -->
                 <ul class="navbar-nav ml-auto my-lg-0 flex-row flex-wrap flex-lg-nowrap pt-4 pt-lg-0 justify-content-center justify-content-lg-end">
                     <form action="{% url 'result' %}" method='get' class='w-100 w-lg-auto mb-3 mb-lg-0'>
-                        <input name='search_alim' class="form-control" type="text" placeholder="Chercher ..." aria-label="Search">
+                        <input name='search_alim' class="form-control" type="text" placeholder="Chercher : ex 'Nutella'" aria-label="Search">
                     </form>
                     <li class="nav-item my-auto">
                         {% if user.is_authenticated %}
