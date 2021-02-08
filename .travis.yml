@@ -9,9 +9,8 @@ script:
   - python manage.py test
 
 env: 
-  - DJANGO_SETTINGS_MODULE="pur_beurre_project.travis"
   - ENV=PRODUCTION
-  - SECRET_KEY=test
+  - DJANGO_SETTINGS_MODULE="pur_beurre_project.travis"
 
 services:
   - postgresql
