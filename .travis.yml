@@ -4,17 +4,13 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-# command to run tests
-script:
-  - python manage.py test
-
-before_install:
-  - "pip install -U pip"
-  - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
-
+  
 env:
   global:
   - DJANGO_SETTINGS_MODULE="pur_beurre_project.travis"
 
 services:
   - postgresql
+# command to run tests
+script:
+  - python manage.py test
