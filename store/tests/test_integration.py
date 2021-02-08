@@ -1,5 +1,6 @@
 from django.test import LiveServerTestCase
-from selenium.webdriver import Firefox
+from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
 from time import sleep
 from django.urls import reverse
 from store.models import Aliment, Category
@@ -27,7 +28,10 @@ class NewUserFormTest(LiveServerTestCase):
         user.is_superuser = False
         user.is_staff = False
         user.save()
-        self.driver = Firefox()
+
+        opts = FirefoxOptions()
+        opts.add_argument("--headless")
+        self.driver = webdriver.Firefox(firefox_options=opts)
 
     def connect_user(self):
         self.driver.get(f'{self.live_server_url}{reverse("login")}')
