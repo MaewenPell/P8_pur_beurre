@@ -1,3 +1,4 @@
+[![Build Status](https://www.travis-ci.com/MaewenPell/P8_pur_beurre.svg?branch=main)](https://www.travis-ci.com/MaewenPell/P8_pur_beurre)
 # Pur Beurre Project
 
 ## Introduction
