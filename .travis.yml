@@ -1,16 +1,16 @@
 language: python
 python:
   - "3.8"
+
 # command to install dependencies
-install:
+before-script:
   - pip install -r requirements.txt
-  
-env:
-  global:
-  - DJANGO_SETTINGS_MODULE="pur_beurre_project.travis"
 
 services:
   - postgresql
-# command to run tests
+
+env:
+  - DJANGO_SETTINGS_MODULE="pur_beurre_project.travis"
+
 script:
-  - python manage.py test
+  - ./manage.py test
