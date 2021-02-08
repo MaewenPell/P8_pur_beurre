@@ -8,7 +8,7 @@ install:
 script:
   - python manage.py test
 
-env: DJANGO_SETTINGS_MODULE="pur_beurre_project.settings.travis"
+env: DJANGO_SETTINGS_MODULE="pur_beurre_project.travis"
 
 services:
   - postgresql
