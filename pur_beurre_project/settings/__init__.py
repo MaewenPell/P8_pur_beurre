@@ -24,19 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-if os.environ.get('ENV') == "PRODUCTION":
-    DEBUG = False
-    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = \
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-    STATICFILES_DIRS = (
-        os.path.join(PROJECT_ROOT, 'static'),
-    )
-    STATICFILES_STORAGE = \
-        'whitenoise.storage.CompressedManifestStaticFilesStorage'
-else:
-    DEBUG = True
-    SECRET_KEY = "YOUR SECRET KEY HERE"
+DEBUG = True
 
 ALLOWED_HOSTS = [".herokuapps.com", "localhost", "127.0.0.1"]
 

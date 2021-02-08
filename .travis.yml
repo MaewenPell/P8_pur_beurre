@@ -10,8 +10,7 @@ services:
   - postgresql
 
 env:
-  - DJANGO_SETTINGS_MODULE="pur_beurre_project.travis"
-  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/tests:$TRAVIS_BUILD_DIR/store
+  - DJANGO_SETTINGS_MODULE='pur_beurre_project.settings.production'
 
 script:
   - ./manage.py test
