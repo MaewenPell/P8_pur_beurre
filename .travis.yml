@@ -14,7 +14,7 @@ services:
   - postgresql
 
 env:
-  - DJANGO_SETTINGS_MODULE='pur_beurre_project.settings.production'
+  - DJANGO_SETTINGS_MODULE='pur_beurre_project.settings'
 
 script:
   - ./manage.py test

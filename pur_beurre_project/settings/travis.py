@@ -1,9 +1,4 @@
 from . import *
-import os
-
-SECRET_KEY = 'IVAfNEjEh1NP7yDOWLWBEA'
-DEBUG = False
-
 
 DATABASES = {
     'default': {
