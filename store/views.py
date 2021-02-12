@@ -9,7 +9,6 @@ from store.models import User
 
 
 def index(request):
-    ERROR ICI
     return render(request, 'store/index.html')
 
 
@@ -102,3 +101,5 @@ def register(request):
     }
     return render(request, 'registration/register.html', context=context)
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
