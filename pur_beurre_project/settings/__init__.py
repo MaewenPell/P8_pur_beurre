@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import django_heroku
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "QKpGoqpcAyRM9e7JCeEB"
 DEBUG = True
 
-ALLOWED_HOSTS = ["167.172.156.50"]
+ALLOWED_HOSTS = ["localhost", "167.172.156.50"]
 
 # Application definition
 
@@ -73,11 +75,11 @@ WSGI_APPLICATION = 'pur_beurre_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'purbeurre',
-        'USER': '',
+        'USER': 'maewenp',
         'PASSWORD': '',
-        'HOST': 'localhost',
+        'HOST': '',
         'PORT': '5432',
     }
 }
@@ -124,3 +126,14 @@ LOGOUT_REDIRECT_URL = 'index'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 django_heroku.settings(locals())
+
+
+sentry_sdk.init(
+    dsn="https://6b76c711a5aa45b593520109d6187c2b@o522894.ingest.sentry.io/5634753",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
