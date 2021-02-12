@@ -35,3 +35,4 @@ urllib3==1.26.2
 virtualenv==20.0.35
 django_heroku
 gunicorn
+sentry-sdk
