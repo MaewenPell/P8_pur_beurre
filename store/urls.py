@@ -13,4 +13,5 @@ urlpatterns = [
     path('add_alim/', views.add_alim, name='add_alim'),
     path('remove_alim/', views.remove_alim, name='remove_alim'),
     path('accounts/register', views.register, name="register"),
+    path('sentry-debug/', trigger_error),
 ]
