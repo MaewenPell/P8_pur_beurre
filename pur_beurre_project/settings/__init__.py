@@ -19,7 +19,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = "QKpGoqpcAyRM9e7JCeEB"
+DEBUG = True
 
 ALLOWED_HOSTS = ["167.172.156.50"]
 
@@ -72,10 +73,10 @@ WSGI_APPLICATION = 'pur_beurre_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'purbeurre',
-        'USER': 'maewenp',
-        'PASSWORD': '0+0=LaTeteàT0t0',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '5432',
     }
