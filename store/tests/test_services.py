@@ -49,9 +49,8 @@ class ServicesUnitsTest(TestCase):
         self.assertEqual(best_match['product'], self.test_alim)
 
     def test_find_better_alim_than_base(self):
-        base_alim = self.test_alim
-        better_alim = db_lookup.find_better_alims(base_alim)
-        self.assertTrue(base_alim.nutriscore > better_alim[0].nutriscore)
+        better_alim = db_lookup.find_better_alims(self.test_alim)
+        self.assertTrue(self.test_alim.nutriscore > better_alim[0].nutriscore)
 
     def test_better_alim_is_same_category_than_base(self):
         base_alim = self.test_alim
