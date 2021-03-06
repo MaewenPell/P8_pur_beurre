@@ -14,6 +14,9 @@ class Category(models.Model):
 
 class Aliment(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    notation = models.IntegerField(null=True, default=0)
+    count = models.IntegerField(default=0)
+    average = models.FloatField(null=True, default=0)
     nutriscore = models.CharField(max_length=100)
     image_url = models.URLField(unique=True)
     product_url = models.URLField(unique=True)

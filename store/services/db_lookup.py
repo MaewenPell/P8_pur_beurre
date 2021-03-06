@@ -115,3 +115,15 @@ def get_user_favorite_alims(request):
         "page_obj": page_object
     }
     return context
+
+
+def manage_user_notation(alim_name, alim_notation):
+    alim = Aliment.objects.get(name=alim_name)
+    if alim_notation in range(1, 6):
+        alim.count += 1
+        if alim.notation is not None:
+            alim.notation += alim_notation
+        else:
+            alim.notation = alim_notation
+    alim.average = np.round(alim.notation / alim.count, 2)
+    alim.save()

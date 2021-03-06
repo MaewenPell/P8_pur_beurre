@@ -51,8 +51,10 @@ def remove_alim(request):
 
 
 def notation(request):
-    notation = request.POST['notation_drop']
-    print(notation)
+    alim_information = request.POST['notation_drop'].split("|")
+    alim_notation = int(alim_information[0])
+    alim_name = alim_information[1].strip()
+    db_lookup.manage_user_notation(alim_name, alim_notation)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
