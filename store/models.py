@@ -21,7 +21,6 @@ class Aliment(models.Model):
     fat = models.CharField(max_length=100, null=True, default=None)
     salt = models.CharField(max_length=100, null=True, default=None)
     energy = models.CharField(max_length=100, null=True, default=None)
-
     category = models.ForeignKey(Category, related_name='aliments',
                                  on_delete=models.CASCADE)
 

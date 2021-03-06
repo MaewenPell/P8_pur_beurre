@@ -73,8 +73,25 @@
             </div>
         </div>
         <row>
-            <div class='text-center'>
-                <a class="btn btn-outline-warning mt-5 btn-rounded btn-sm" href={{ alim.product_url }} target='_blank'>
+            <div class='text-center mt-3 col-md-4 mx-auto'>
+                <div class="input-group mb-3">
+                    <form action="{% url 'notation' %}" method="POST">
+                        {% csrf_token %}
+                        <select class="custom-select" name="notation_drop">
+                            <option selected>Séléctionner une note :</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-warning btn-rounded btn-sm" type="submit" name="notation">Envoyer <i class="fas fa-star"></i></button>
+                        </div>
+                    </form>
+                </div>
+
+                <a class="btn btn-outline-warning btn-rounded btn-sm" href={{ alim.product_url }} target='_blank'>
                     <i class="fa fa-floppy-o p-2"aria-hidden="true"></i>
                     Voir la fiche d'openFoodFact
                 </a>
