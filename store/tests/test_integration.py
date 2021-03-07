@@ -1,6 +1,7 @@
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver import FirefoxOptions
+from selenium.webdriver.support.ui import Select
 from time import sleep
 from django.urls import reverse
 from store.models import Aliment, Category
@@ -19,8 +20,8 @@ class NewUserFormTest(LiveServerTestCase):
                                fat="Y", salt="Z", energy="ABC")
         Aliment.objects.create(category=test_cat, name="Better Alim",
                                nutriscore="A", image_url="https://dsqd.org",
-                               product_url="https://dqs.org", sugar="X",
-                               fat="Y", salt="Z", energy="ABC")
+                               product_url="https://dqs.org", sugar="0",
+                               fat="0", salt="0", energy="0")
         # User.objects.create(username="Testuser_2",
         # email="bla@blala.com", password="abd1234@dsdq")
         User = get_user_model()
@@ -30,7 +31,7 @@ class NewUserFormTest(LiveServerTestCase):
         user.save()
 
         opts = FirefoxOptions()
-        opts.add_argument("--headless")
+        # opts.add_argument("--headless")
         self.driver = webdriver.Firefox(firefox_options=opts)
 
     def connect_user(self):

@@ -127,3 +127,4 @@ def manage_user_notation(alim_name, alim_notation):
             alim.notation = alim_notation
     alim.average = np.round(alim.notation / alim.count, 2)
     alim.save()
+    return alim

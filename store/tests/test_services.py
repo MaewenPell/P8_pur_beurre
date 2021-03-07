@@ -63,3 +63,10 @@ class ServicesUnitsTest(TestCase):
         fav = Favorite.objects.filter(user=self.test_user)
         self.assertEqual(len(fav), 1)
         self.assertEqual(fav[0].aliment.name, "petit beurre")
+
+    def test_average(self):
+        alim = db_lookup.manage_user_notation(self.test_alim.name, 5)
+        alim = db_lookup.manage_user_notation(self.test_alim.name, 2)
+
+        self.assertEqual(alim.count, 2)
+        self.assertEqual(alim.average, 3.5)

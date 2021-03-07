@@ -12,7 +12,8 @@ class TestAlimentsCategories(TestCase):
                                image_url="https://image_url.org",
                                product_url="https://product_url.org",
                                sugar="X",
-                               fat="Y", salt="Z", energy="ABC")
+                               fat="Y", salt="Z", energy="ABC",
+                               notation=10, count=2, average=5)
 
     def setUp(self):
         self.test_cat = Category.objects.get(category="Test Category")
@@ -50,6 +51,11 @@ class TestAlimentsCategories(TestCase):
 
     def test_alim_energy_equals(self):
         self.assertEqual(self.test_alim.energy, "ABC")
+
+    def test_alim_notation_equals(self):
+        self.assertEqual(self.test_alim.count, 2)
+        self.assertEqual(self.test_alim.notation, 10)
+        self.assertEqual(self.test_alim.average, 5)
 
     def test_str_alim_name_equals(self):
         self.assertEqual(self.test_alim.__str__(), self.test_alim.name)

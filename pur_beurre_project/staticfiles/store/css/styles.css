@@ -10451,7 +10451,7 @@ form.ul-none ul{
 .rating {
   unicode-bidi: bidi-override;
   direction: rtl;
-  color:red;
+  margin: 0 auto;
 }
 
 .rating>span {
