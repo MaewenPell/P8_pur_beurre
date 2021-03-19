@@ -11,6 +11,21 @@
 </div>
     <section class="page-section bg-primary">
         <div class="container">
+        {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                            <p><i class="fa fa-exclamation-triangle p-2" aria-hidden="true"></i>{{ message }}</p>
+                        </div>
+                    {% endif %}
+                    {% if message.tags == 'success' %}
+                        <div class="alert alert-success" role="alert">
+                            <p><i class="fa fa-check-square p-2" aria-hidden="true"></i>{{ message }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        {% endif %}
+
             <div class="row align-items-center">
                 <div class="col-md-3 text-center">
                     <img class='w-75 w-sm-100' src="{% static 'store/assets/img/nutriscores/' %}{{ alim.nutriscore }}.png " alt='c_logo' />
@@ -96,7 +111,7 @@
                             <option value="4 | {{ alim.name}}">4</option>
                             <option value="5 | {{ alim.name}}">5</option>
                         </select>
-                        <button class="btn btn-outline-warning btn-rounded btn-sm" type="submit" name="notation">Envoyer <i class="fas fa-star"></i></button>
+                        <button class="btn btn-outline-warning btn-rounded btn-sm mt-2" type="submit" name="notation">Envoyer <i class="fas fa-star"></i></button>
                     </form>
                 </div>
 

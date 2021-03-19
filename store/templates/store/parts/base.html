@@ -9,7 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Pur Beurre</title>
-    <!-- Font Awesome icons (free version)-->
+    <!-- Font Awesome icons -->
     <script src="https://kit.fontawesome.com/91d7821759.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="http://fonts.googleapis.com/css?family=Scope+One" rel="stylesheet" type="text/css">
@@ -37,7 +37,15 @@
                 <!-- Search form -->
                 <ul class="navbar-nav ml-auto my-lg-0 flex-row flex-wrap flex-lg-nowrap pt-4 pt-lg-0 justify-content-center justify-content-lg-end">
                     <form action="{% url 'result' %}" method='get' class='w-100 w-lg-auto mb-3 mb-lg-0'>
-                        <input name='search_alim' class="form-control" type="text" placeholder="Chercher : ex 'Nutella'" aria-label="Search">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text bg-grey">
+                                    <input name="checkbox" type="checkbox" value="Checked">
+                                    <p class="ml-2 my-auto">Trier par note</p>
+                                </div>
+                            </div>
+                            <input name='search_alim' class="form-control" type="text" placeholder="Chercher : ex 'Nutella'" aria-label="Search">
+                        </div>
                     </form>
                     <li class="nav-item my-auto">
                         {% if user.is_authenticated %}

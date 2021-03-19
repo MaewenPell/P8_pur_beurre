@@ -52,9 +52,13 @@ def remove_alim(request):
 
 def notation(request):
     alim_information = request.POST['notation_drop'].split("|")
-    alim_notation = int(alim_information[0])
-    alim_name = alim_information[1].strip()
-    db_lookup.manage_user_notation(alim_name, alim_notation)
+    try:
+        alim_notation = int(alim_information[0])
+        alim_name = alim_information[1].strip()
+        db_lookup.manage_user_notation(alim_name, alim_notation)
+        messages.success(request, "Note ajoutée")
+    except ValueError:
+        messages.error(request, "Veuillez choisir une note")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

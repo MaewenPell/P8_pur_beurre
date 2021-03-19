@@ -26,11 +26,16 @@ def find_best_match(query: str):
     return best_match
 
 
-def find_better_alims(alim: Aliment):
+def find_better_alims(alim: Aliment, to_sort: str):
     db_query = Q(nutriscore__lt=alim.nutriscore)
     db_query.add(Q(category=alim.category), Q.AND)
 
-    better_alim = Aliment.objects.filter(db_query).order_by("nutriscore")[0:6]
+    if to_sort != "Checked":
+        better_alim = Aliment.objects.filter(
+            db_query).order_by("nutriscore")[0:6]
+    else:
+        better_alim = Aliment.objects.filter(
+            db_query).order_by("-average")[0:6]
 
     return better_alim
 
@@ -76,10 +81,11 @@ def remove_alim_from_favorite(alim_id, user):
 
 def get_results_from_research(request):
     query = request.GET.get('search_alim')
+    to_sort = request.GET.get('checkbox')
     try:
         best_match = find_best_match(query)
-        better_alims = find_better_alims(Aliment.objects.get(
-            name=best_match['name']))
+        better_alims = find_better_alims(
+            Aliment.objects.get(name=best_match['name']), to_sort=to_sort)
         error = False
     except Aliment.DoesNotExist:
         better_alims, best_match = return_default_value()
