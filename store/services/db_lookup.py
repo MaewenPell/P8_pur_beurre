@@ -102,7 +102,7 @@ def return_default_value():
     query = "petit beurre"
     best_match = find_best_match(query)
     better_alims = find_better_alims(Aliment.objects.get(
-        name=best_match['name']))
+        name=best_match['name']), to_sort=None)
     return better_alims, best_match
 
 
