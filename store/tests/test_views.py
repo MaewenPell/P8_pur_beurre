@@ -27,7 +27,8 @@ class ViewsResponseTest(TestCase):
 
     def test_result_url_exists_at_desired_location(self):
         self.assertEqual(
-            self.client.get('/result?search_alim=Test+alim').status_code, 200)
+            self.client.get(
+                '/result?search_alim=petit+beurre').status_code, 200)
 
     def test_legal_url_exists_at_desired_location(self):
         self.assertEqual(self.client.get('/legal').status_code, 200)

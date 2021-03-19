@@ -16,13 +16,13 @@ class NewUserFormTest(LiveServerTestCase):
                                image_url="https://image_url.org",
                                product_url="https://product_url.org",
                                sugar="X",
-                               fat="Y", salt="Z", energy="ABC")
+                               fat="Y", salt="Z", energy="ABC",
+                               average=3)
         Aliment.objects.create(category=test_cat, name="Better Alim",
                                nutriscore="A", image_url="https://dsqd.org",
                                product_url="https://dqs.org", sugar="X",
-                               fat="Y", salt="Z", energy="ABC")
-        # User.objects.create(username="Testuser_2",
-        # email="bla@blala.com", password="abd1234@dsdq")
+                               fat="Y", salt="Z", energy="ABC",
+                               average=5)
         User = get_user_model()
         user = User.objects.create_user('Testuser_2', password='abd1234@dsdq')
         user.is_superuser = False
@@ -91,8 +91,16 @@ class NewUserFormTest(LiveServerTestCase):
             "/html/body/section/div/div/div/div/div/div/span").text
         button_add = self.driver.find_element_by_xpath(
             "/html/body/section/div/div/div/div/div/div/div/form/button")
+
         self.assertTrue(button_add.is_enabled)
         self.assertLess(nutriscore, "X")
+
+    def test_assert_checkbox_is_present(self):
+        # First we connect a user
+        self.connect_user()
+
+        a = self.driver.find_element_by_xpath("/html/body/nav/div/a")
+        self.assertIsNotNone(a)
 
     def test_add_alim(self):
         # First we connect a user

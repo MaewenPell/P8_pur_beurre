@@ -11,6 +11,21 @@
 </div>
     <section class="page-section bg-primary">
         <div class="container">
+        {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                            <p><i class="fa fa-exclamation-triangle p-2" aria-hidden="true"></i>{{ message }}</p>
+                        </div>
+                    {% endif %}
+                    {% if message.tags == 'success' %}
+                        <div class="alert alert-success" role="alert">
+                            <p><i class="fa fa-check-square p-2" aria-hidden="true"></i>{{ message }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        {% endif %}
+
             <div class="row align-items-center">
                 <div class="col-md-3 text-center">
                     <img class='w-75 w-sm-100' src="{% static 'store/assets/img/nutriscores/' %}{{ alim.nutriscore }}.png " alt='c_logo' />
@@ -23,6 +38,7 @@
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
+                                            <th class="th-lg align-top">Note</th>
                                             <th class="th-lg align-top">Sucres</th>
                                             <th class="th-lg align-top">Graisses</th>
                                             <th class="th-lg align-top">Sel</th>
@@ -32,6 +48,16 @@
 
                                     <tbody>
                                         <tr>
+                                            {% if alim.average > 4 %}
+                                                <td class='good'>
+                                            {% elif alim.average > 2.5 and alim.average < 4 %}
+                                                <td class='average'>
+                                            {% else %}
+                                                <td class='bad'>
+                                            {% endif %}
+                                                <i class="fas fa-circle pr-1"></i>{{ alim.average }} / 5
+                                                </td>
+
                                             {% if nutrim.sugar < 5 %}
                                                 <td class='good'>
                                             {% elif nutrim.sugar < 12.5 %}
@@ -73,8 +99,23 @@
             </div>
         </div>
         <row>
-            <div class='text-center'>
-                <a class="btn btn-outline-warning mt-5 btn-rounded btn-sm" href={{ alim.product_url }} target='_blank'>
+            <div class='text-center mt-3 col-md-3 mx-auto'>
+                <div class="input-group mb-3">
+                    <form action="{% url 'notation' %}" method="POST">
+                        {% csrf_token %}
+                        <select class="custom-select" name="notation_drop">
+                            <option selected>Séléctionner une note :</option>
+                            <option value="1 | {{ alim.name}}">1</option>
+                            <option value="2 | {{ alim.name}}">2</option>
+                            <option value="3 | {{ alim.name}}">3</option>
+                            <option value="4 | {{ alim.name}}">4</option>
+                            <option value="5 | {{ alim.name}}">5</option>
+                        </select>
+                        <button class="btn btn-outline-warning btn-rounded btn-sm mt-2" type="submit" name="notation">Envoyer <i class="fas fa-star"></i></button>
+                    </form>
+                </div>
+
+                <a class="btn btn-outline-warning btn-rounded btn-sm" href={{ alim.product_url }} target='_blank'>
                     <i class="fa fa-floppy-o p-2"aria-hidden="true"></i>
                     Voir la fiche d'openFoodFact
                 </a>

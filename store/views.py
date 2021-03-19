@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-
 import store.services.db_lookup as db_lookup
 from store.forms.forms import SignUpForm
 from store.models import User
@@ -49,6 +48,18 @@ def remove_alim(request):
         return redirect('my_aliments')
     else:
         return redirect("accounts/login")
+
+
+def notation(request):
+    alim_information = request.POST['notation_drop'].split("|")
+    try:
+        alim_notation = int(alim_information[0])
+        alim_name = alim_information[1].strip()
+        db_lookup.manage_user_notation(alim_name, alim_notation)
+        messages.success(request, "Note ajoutée")
+    except ValueError:
+        messages.error(request, "Veuillez choisir une note")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def result(request):
@@ -100,4 +111,3 @@ def register(request):
         "form": form,
     }
     return render(request, 'registration/register.html', context=context)
-

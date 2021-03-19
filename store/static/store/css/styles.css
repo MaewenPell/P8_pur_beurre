@@ -10447,3 +10447,21 @@ form.ul-none ul{
 .font-family-secondary {
   font-family: "Scope One", sans-serif;
 }
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  margin: 0 auto;
+}
+
+.rating>span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+
+.rating>span:hover:before,
+.rating>span:hover~span:before {
+  content: "\2605";
+  position: absolute;
+}
